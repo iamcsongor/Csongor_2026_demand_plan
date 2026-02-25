@@ -210,19 +210,20 @@
     .ann-fill { height:100%;border-radius:999px; }
     .ann-pct  { width:30px;text-align:right;font-weight:700;color:var(--t1); }
 
-    .spark-row { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px; }
-    .spark-card { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 14px 10px; }
-    .spark-lbl  { font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:6px; }
-    .spark-wrap { height:44px; }
+    .spark-row  { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px; }
+    .spark-card { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column; }
+    .spark-lbl  { font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600; }
+    .spark-wrap { height:52px;position:relative;width:100%;flex:1;min-height:40px; }
 
-    .tbl-section { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px;overflow-x:auto; }
+    .tbl-section { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px; }
+    .tbl-scroll  { overflow-x:auto;-webkit-overflow-scrolling:touch; }
     .tbl-hd { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
     .m-sel { display:flex;gap:7px;flex-wrap:wrap; }
     .m-btn { padding:6px 13px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--t2);background:rgba(255,255,255,0.05);border:1px solid var(--border);transition:all .18s; }
     .m-btn:hover { color:var(--t1); }
     .m-btn.active { background:rgba(16,251,207,0.1);color:var(--accent);border-color:rgba(16,251,207,0.22); }
 
-    table { width:100%;border-collapse:collapse;font-size:12.5px; }
+    table { width:100%;min-width:700px;border-collapse:collapse;font-size:12.5px; }
     thead th { padding:9px 10px;text-align:center;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;font-size:10.5px;border-bottom:1px solid var(--border); }
     thead th:first-child { text-align:left; }
     tbody td { padding:10px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.035);color:var(--t2); }
@@ -267,27 +268,28 @@
       .tabs { flex-wrap:wrap;width:100%; }
       .kpi-row  { grid-template-columns:1fr 1fr; }
       .kpi-row .kpi:last-child { grid-column:1/-1; }
-      .kpi-val  { font-size:24px; }
+      .kpi-val  { font-size:22px; }
       .spark-row{ grid-template-columns:1fr 1fr; }
       .main-row { grid-template-columns:1fr; }
       .side { flex-direction:column; }
-      .chart-wrap { height:200px; }
+      .chart-wrap { height:220px; }
       .legend { flex-wrap:wrap;gap:8px; }
       .card { padding:16px 14px; }
       .card-hd  { flex-direction:column;gap:10px;align-items:flex-start; }
-      .tbl-section { padding:14px 10px; }
+      .tbl-section { padding:14px 12px; }
       .tbl-hd { flex-direction:column;gap:12px;align-items:flex-start; }
       .m-sel { flex-wrap:wrap; }
       #status-bar { padding:6px 14px;flex-wrap:wrap;gap:6px; }
       #setup-banner { padding:10px 14px;flex-wrap:wrap;gap:8px; }
       #setup-banner #sheet-input { flex:1 1 100%; }
-      table { font-size:11px; }
-      thead th,tbody td { padding:7px 5px; }
     }
     @media (max-width:420px) {
-      .kpi-val { font-size:20px; }
-      .tab  { padding:6px 12px;font-size:12px; }
-      .spark-val { font-size:15px; }
+      .kpi-row  { grid-template-columns:1fr 1fr; }
+      .spark-row{ grid-template-columns:1fr 1fr; }
+      .kpi-val  { font-size:19px; }
+      .tab      { padding:6px 12px;font-size:12px; }
+      .spark-val{ font-size:14px; }
+      .kpi      { padding:16px 14px; }
     }
 
     /* spinner overlay for refreshing */
@@ -402,7 +404,9 @@
       <div class="card-title">Monthly Breakdown</div>
       <div class="m-sel" id="m-sel"></div>
     </div>
-    <table id="tbl"></table>
+    <div class="tbl-scroll">
+      <table id="tbl"></table>
+    </div>
   </div>
 
   <div class="foot" id="dash-foot">
@@ -450,13 +454,13 @@ function buildDemoActuals() {
   };
 }
 
-/* derive CURRENT_MONTH from actuals: last month with any non-null actual */
+/* derive CURRENT_MONTH from actuals: last month with any non-null, non-zero actual */
 function getCurrentMonth() {
   let last = -1;
   SRCS.forEach(s => METRICS.forEach(m => {
     const a = ACTUALS[s][m.key];
     for (let i = 11; i >= 0; i--) {
-      if (a[i] !== null && i > last) last = i;
+      if (a[i] !== null && a[i] !== 0 && i > last) last = i;
     }
   }));
   return Math.max(0, last);
