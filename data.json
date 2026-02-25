@@ -53,9 +53,9 @@
         0.0
       ],
       "poc": [
-        69.0,
-        69.0,
-        69.0,
+        null,
+        null,
+        null,
         null,
         null,
         null,
@@ -125,7 +125,7 @@
         0.0
       ],
       "poc": [
-        69.0,
+        null,
         null,
         null,
         null,
@@ -197,7 +197,7 @@
         0.0
       ],
       "poc": [
-        69.0,
+        null,
         null,
         null,
         null,
@@ -240,6 +240,6 @@
       ]
     }
   },
-  "last_fetched": "2026-02-25T12:47:50.508434Z",
+  "last_fetched": "2026-02-25T14:08:28.585237Z",
   "source": "sharepoint_actuals_sheet"
 }
