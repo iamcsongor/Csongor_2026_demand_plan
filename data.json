@@ -25,37 +25,37 @@
   "actuals": {
     "marketing": {
       "s1": [
-        4,
-        3,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        4.0,
+        3.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "s2": [
-        3,
-        2,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        3.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "poc": [
-        null,
-        null,
-        null,
+        69.0,
+        69.0,
+        69.0,
         null,
         null,
         null,
@@ -67,7 +67,7 @@
         null
       ],
       "wins": [
-        1,
+        null,
         null,
         null,
         null,
@@ -81,7 +81,7 @@
         null
       ],
       "value": [
-        0.0,
+        150000.0,
         null,
         null,
         null,
@@ -97,35 +97,35 @@
     },
     "bdr": {
       "s1": [
-        20,
-        7,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        20.0,
+        7.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "s2": [
-        5,
-        3,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        5.0,
+        3.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "poc": [
-        1,
+        69.0,
         null,
         null,
         null,
@@ -153,7 +153,7 @@
         null
       ],
       "value": [
-        null,
+        75000.0,
         null,
         null,
         null,
@@ -169,35 +169,35 @@
     },
     "partner": {
       "s1": [
-        1,
-        2,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        1.0,
+        6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "s2": [
-        1,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        2.0,
+        2.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "poc": [
-        null,
+        69.0,
         null,
         null,
         null,
@@ -212,7 +212,7 @@
       ],
       "wins": [
         null,
-        1,
+        null,
         null,
         null,
         null,
@@ -225,8 +225,8 @@
         null
       ],
       "value": [
-        null,
         0.0,
+        null,
         null,
         null,
         null,
@@ -240,6 +240,6 @@
       ]
     }
   },
-  "last_fetched": "2026-02-25T12:40:08.831046Z",
-  "source": "sharepoint_live"
+  "last_fetched": "2026-02-25T12:47:50.508434Z",
+  "source": "sharepoint_actuals_sheet"
 }
