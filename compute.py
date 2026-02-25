@@ -1,8 +1,8 @@
 """
 Cambri Demand Plan — GitHub Actions compute script
 ----------------------------------------------------
-Downloads the SharePoint Excel file, computes 5 demand-plan metrics
-from the raw Salesforce export, and writes data.json to the repo root.
+Downloads the SharePoint Excel file, reads the manually-maintained
+'Actuals' summary sheet, and writes data.json to the repo root.
 
 Run:
     pip install requests openpyxl
@@ -33,10 +33,28 @@ TARGETS = {
     "partner":   {"s1": 50,   "s2": 22,  "poc": 11,   "wins": 5.5,  "value": 550000 },
 }
 
-CH_MAP = {
-    "Marketing Sourced": "marketing",
-    "BDR Sourced":       "bdr",
-    "Partner Sourced":   "partner",
+# Maps values found in the Source and Metric columns of the Actuals sheet
+SRC_MAP = {
+    "marketing":  "marketing",
+    "bdr":        "bdr",
+    "partner":    "partner",
+}
+
+METRIC_MAP = {
+    "s1":                   "s1",
+    "opps created":         "s1",
+    "opportunities created":"s1",
+    "s2":                   "s2",
+    "advanced to s2":       "s2",
+    "poc":                  "poc",
+    "wins #":               "wins",
+    "wins#":                "wins",
+    "wins number":          "wins",
+    "wins €":               "value",
+    "wins€":                "value",
+    "value":                "value",
+    "wins value":           "value",
+    "bookings":             "value",
 }
 
 
@@ -51,97 +69,89 @@ def download_workbook():
     return load_workbook(BytesIO(resp.content), data_only=True, read_only=True)
 
 
-def safe_int_month(val):
-    """Return 1-12 int from an int or datetime month field, else None."""
-    if isinstance(val, int) and 1 <= val <= 12:
-        return val
-    if isinstance(val, datetime.datetime):
-        return val.day if 1 <= val.day <= 12 else None
-    return None
+def read_actuals_sheet(wb):
+    """
+    Read the 'Actuals' summary sheet.
 
+    Expected layout:
+        Row 1: title banner (skip)
+        Row 2: month numbers 1–12 in cols C–N (skip, used for position)
+        Row 3: headers — col A=Source, col B=Metric, cols C–N=Jan–Dec
+        Row 4+: data rows
 
-def compute_actuals(wb):
-    ws = wb["Demand Plan Actuals"]
+    Source column may be blank (carry-forward from previous row).
+    """
+    ws = wb["Actuals"]
     all_rows = list(ws.iter_rows(values_only=True))
 
-    # Header row is the first row whose first cell is "Opportunity Owner"
-    header_row = None
+    # Find the header row: first row where col A or col B contains "Source" or "Metric"
+    header_idx = None
     for i, row in enumerate(all_rows):
-        if row[0] == "Opportunity Owner":
-            header_row = i
+        vals = [str(v).strip().lower() if v is not None else "" for v in row[:3]]
+        if "source" in vals or "metric" in vals:
+            header_idx = i
             break
-    if header_row is None:
-        raise ValueError("Could not find header row in 'Demand Plan Actuals'")
 
-    headers = list(all_rows[header_row])
-    col = {h: i for i, h in enumerate(headers) if h is not None}
-    data = [
-        all_rows[i]
-        for i in range(header_row + 1, len(all_rows))
-        if any(v is not None for v in all_rows[i])
-    ]
+    if header_idx is None:
+        raise ValueError("Could not find header row in 'Actuals' sheet")
 
-    # Zero-filled result structure: [jan … dec]
+    data_rows = all_rows[header_idx + 1:]
+
+    # Empty result: all None (= no data yet for that month)
     actuals = {
         src: {m: [None] * 12 for m in ("s1", "s2", "poc", "wins", "value")}
         for src in ("marketing", "bdr", "partner")
     }
 
-    def inc(src, metric, mo_idx, amount=1):
-        cur = actuals[src][metric][mo_idx]
-        actuals[src][metric][mo_idx] = (cur or 0) + amount
+    current_src = None
 
-    for row in data:
-        src = CH_MAP.get(str(row[col["Contribution Channel"]]))
-        if not src:
+    for row in data_rows:
+        # Skip fully empty rows
+        if all(v is None for v in row):
             continue
 
-        cr_year = row[col["Created YEAR"]]
-        cr_mo   = safe_int_month(row[col["Created Month2"]])
-        s2_year = row[col["S2 Year"]]
-        s2_mo   = safe_int_month(row[col["S2 Month"]])
-        close_d = row[col["Close Date"]]
-        stage   = row[col["Stage"]]
-        poc_st  = row[col["POC Status c"]]
-        amount  = float(row[col["Amount (converted)"]] or 0)
+        src_raw    = str(row[0]).strip().lower() if row[0] is not None else ""
+        metric_raw = str(row[1]).strip().lower() if row[1] is not None else ""
 
-        # S1: created this year
-        if cr_year == TARGET_YEAR and cr_mo:
-            inc(src, "s1", cr_mo - 1)
+        # Carry-forward source
+        if src_raw in SRC_MAP:
+            current_src = SRC_MAP[src_raw]
+        # If col A is blank, keep current_src
 
-        # S2: advanced to S2 this year
-        if s2_year == TARGET_YEAR and s2_mo:
-            inc(src, "s2", s2_mo - 1)
+        if current_src is None:
+            continue
 
-        # POC: any record where POC Status is set, created this year
-        if poc_st is not None and cr_year == TARGET_YEAR and cr_mo:
-            inc(src, "poc", cr_mo - 1)
+        metric = METRIC_MAP.get(metric_raw)
+        if metric is None:
+            continue
 
-        # Wins # and Wins €: Closed Won with close date in this year
-        if (
-            stage == "Closed Won"
-            and isinstance(close_d, datetime.datetime)
-            and close_d.year == TARGET_YEAR
-        ):
-            mo_idx = close_d.month - 1
-            inc(src, "wins",  mo_idx)
-            inc(src, "value", mo_idx, amount)
+        # Columns C–N (index 2–13) = Jan–Dec
+        for mo_idx in range(12):
+            col_idx = 2 + mo_idx
+            if col_idx >= len(row):
+                break
+            val = row[col_idx]
+            if val is not None:
+                try:
+                    actuals[current_src][metric][mo_idx] = float(val)
+                except (TypeError, ValueError):
+                    pass  # leave as None
 
     return actuals
 
 
 def main():
-    print(f"[compute.py] Downloading SharePoint file…")
+    print("[compute.py] Downloading SharePoint file…")
     wb = download_workbook()
-    print(f"[compute.py] Computing actuals…")
-    actuals = compute_actuals(wb)
+    print("[compute.py] Reading Actuals sheet…")
+    actuals = read_actuals_sheet(wb)
     wb.close()
 
     payload = {
         "targets":      TARGETS,
         "actuals":      actuals,
         "last_fetched": datetime.datetime.utcnow().isoformat() + "Z",
-        "source":       "sharepoint_live",
+        "source":       "sharepoint_actuals_sheet",
     }
 
     with open(OUTPUT_FILE, "w") as f:
@@ -149,6 +159,13 @@ def main():
 
     print(f"[compute.py] ✓ Wrote {OUTPUT_FILE}")
 
+    # Print summary for verification
+    for src in ("marketing", "bdr", "partner"):
+        s1 = actuals[src]["s1"][:3]
+        print(f"  {src:12s} S1 Jan-Mar: {s1}")
+
 
 if __name__ == "__main__":
     main()
+
+
