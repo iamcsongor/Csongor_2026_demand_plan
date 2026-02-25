@@ -240,6 +240,56 @@
 
     .foot { text-align:center;font-size:11px;color:var(--t3);margin-top:28px;padding-top:20px;border-top:1px solid var(--border); }
 
+    /* ── SPARKLINE LABELS ── */
+    .spark-top { display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px; }
+    .spark-val  { font-size:17px;font-weight:800;color:var(--t1);letter-spacing:-.5px; }
+    .spark-wrap { height:46px;position:relative;width:100%; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1100px) {
+      .main-row { grid-template-columns:1fr; }
+      .side { flex-direction:row; }
+      .side-card { flex:1; }
+    }
+    @media (max-width:900px) {
+      .wrap { padding:0 20px 36px; }
+      .kpi-row  { grid-template-columns:repeat(3,1fr); }
+      .spark-row{ grid-template-columns:repeat(2,1fr); }
+      .page-hero h1 { font-size:28px; }
+    }
+    @media (max-width:680px) {
+      .wrap { padding:0 14px 28px; }
+      .header { flex-direction:column;align-items:flex-start;gap:10px; }
+      .header-chips { flex-wrap:wrap; }
+      .page-hero h1 { font-size:22px;letter-spacing:-1px; }
+      .page-hero p  { font-size:13px; }
+      .filter-bar { flex-wrap:wrap;gap:10px; }
+      .tabs { flex-wrap:wrap;width:100%; }
+      .kpi-row  { grid-template-columns:1fr 1fr; }
+      .kpi-row .kpi:last-child { grid-column:1/-1; }
+      .kpi-val  { font-size:24px; }
+      .spark-row{ grid-template-columns:1fr 1fr; }
+      .main-row { grid-template-columns:1fr; }
+      .side { flex-direction:column; }
+      .chart-wrap { height:200px; }
+      .legend { flex-wrap:wrap;gap:8px; }
+      .card { padding:16px 14px; }
+      .card-hd  { flex-direction:column;gap:10px;align-items:flex-start; }
+      .tbl-section { padding:14px 10px; }
+      .tbl-hd { flex-direction:column;gap:12px;align-items:flex-start; }
+      .m-sel { flex-wrap:wrap; }
+      #status-bar { padding:6px 14px;flex-wrap:wrap;gap:6px; }
+      #setup-banner { padding:10px 14px;flex-wrap:wrap;gap:8px; }
+      #setup-banner #sheet-input { flex:1 1 100%; }
+      table { font-size:11px; }
+      thead th,tbody td { padding:7px 5px; }
+    }
+    @media (max-width:420px) {
+      .kpi-val { font-size:20px; }
+      .tab  { padding:6px 12px;font-size:12px; }
+      .spark-val { font-size:15px; }
+    }
+
     /* spinner overlay for refreshing */
     #refresh-spin {
       display: none;
@@ -686,26 +736,37 @@ function renderMix() {
 function renderSparks() {
   Object.values(sparkCharts).forEach(c=>c.destroy());
   const row = document.getElementById('spark-row');
+  const CM  = getCurrentMonth();
   const others = METRICS.filter(m=>m.key!==curMetric);
-  row.innerHTML = others.map(m=>`
+  row.innerHTML = others.map(m=>{
+    const d      = getD(m.key);
+    const ytdAct = d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0);
+    return `
     <div class="spark-card" onclick="setMetric('${m.key}')" style="cursor:pointer">
-      <div class="spark-lbl">${m.short}</div>
+      <div class="spark-top">
+        <div class="spark-lbl">${m.short}</div>
+        <div class="spark-val">${fmtM(m.key,ytdAct)}</div>
+      </div>
       <div class="spark-wrap"><canvas id="spk-${m.key}"></canvas></div>
-    </div>`).join('');
-  others.forEach(m=>{
-    const d  = getD(m.key);
-    const el = document.getElementById('spk-'+m.key);
-    if(!el) return;
-    sparkCharts[m.key] = new Chart(el.getContext('2d'),{
-      type:'line',
-      data:{
-        labels:MONTHS,
-        datasets:[
-          { data:MONTHS.map(()=>d.mo), borderColor:'rgba(16,251,207,0.2)', borderWidth:1, borderDash:[4,3], pointRadius:0, fill:false, tension:0.3 },
-          { data:d.acts, borderColor:'#10FBCF', borderWidth:2, pointRadius:d.acts.map(v=>v!==null?3:0), pointBackgroundColor:'#10FBCF', fill:false, tension:0.3 },
-        ],
-      },
-      options:{ responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:400} },
+    </div>`;
+  }).join('');
+  // Use rAF so the browser has laid out the grid before Chart.js reads dimensions
+  requestAnimationFrame(()=>{
+    others.forEach(m=>{
+      const d  = getD(m.key);
+      const el = document.getElementById('spk-'+m.key);
+      if(!el) return;
+      sparkCharts[m.key] = new Chart(el.getContext('2d'),{
+        type:'line',
+        data:{
+          labels:MONTHS,
+          datasets:[
+            { data:MONTHS.map(()=>d.mo), borderColor:'rgba(16,251,207,0.2)', borderWidth:1, borderDash:[4,3], pointRadius:0, fill:false, tension:0.3 },
+            { data:d.acts, borderColor:'#10FBCF', borderWidth:2, pointRadius:d.acts.map(v=>v!==null?3:0), pointBackgroundColor:'#10FBCF', fill:false, tension:0.3 },
+          ],
+        },
+        options:{ responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:400} },
+      });
     });
   });
 }
@@ -741,12 +802,12 @@ function renderTable() {
       </tr>
       <tr>
         <td>Actual</td>
-        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; return v===null?`<td class="c-fut">—</td>`:`<td class="c-act">${fmtM(tblMetric,v)}</td>`; }).join('')}
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; return (v===null||v===0)?`<td class="c-fut">—</td>`:`<td class="c-act">${fmtM(tblMetric,v)}</td>`; }).join('')}
         <td class="c-act">${fmtM(tblMetric,d.acts.reduce((s,v)=>s+(v||0),0))}</td>
       </tr>
       <tr>
         <td>Attainment</td>
-        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)}">${p}%</td>`; }).join('')}
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null||v===0) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)}">${p}%</td>`; }).join('')}
         <td>${(()=>{ const a=d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0),t=d.mo*(CM+1),p=pct(a,t); return `<span class="${cellClass(p)}">${p}%</span>`; })()}</td>
       </tr>
       <tr class="row-divider">
