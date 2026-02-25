@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cambri · 2026 Demand Plan Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:         #002C2A;
+      --bg2:        #003330;
+      --card:       rgba(255,255,255,0.038);
+      --card-hover: rgba(255,255,255,0.07);
+      --accent:     #10FBCF;
+      --accent2:    #4FDBFB;
+      --white:      #FFFFFF;
+      --t1:         rgba(255,255,255,1);
+      --t2:         rgba(255,255,255,0.6);
+      --t3:         rgba(255,255,255,0.35);
+      --border:     rgba(255,255,255,0.07);
+      --ok:         #10FBCF;
+      --warn:       #F7B731;
+      --danger:     #FC5C65;
+      --mkt:        #10FBCF;
+      --bdr:        #4FDBFB;
+      --par:        #A78BFA;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
+    body {
+      background: var(--bg);
+      color: var(--t1);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 5% 15%,  rgba(16,251,207,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 95% 85%,  rgba(79,219,251,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 50%,  rgba(16,251,207,0.03) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 0 36px 48px;
+    }
+
+    /* ── SETUP BANNER ── */
+    #setup-banner {
+      background: rgba(16,251,207,0.07);
+      border-bottom: 1px solid rgba(16,251,207,0.18);
+      padding: 14px 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0; z-index: 100;
+    }
+    #setup-banner .setup-icon { font-size: 18px; }
+    #setup-banner .setup-text { flex: 1; font-size: 13px; color: var(--t2); }
+    #setup-banner .setup-text strong { color: var(--accent); }
+    #sheet-input {
+      flex: 2;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(16,251,207,0.25);
+      border-radius: 9px;
+      padding: 8px 14px;
+      font-size: 13px; font-family: 'Inter', sans-serif;
+      color: var(--t1);
+      outline: none;
+    }
+    #sheet-input::placeholder { color: var(--t3); }
+    #sheet-input:focus { border-color: var(--accent); }
+    #connect-btn {
+      background: linear-gradient(135deg, #10FBCF, #4FDBFB);
+      border: none; border-radius: 9px;
+      padding: 8px 20px;
+      font-size: 13px; font-weight: 700;
+      color: #002C2A; cursor: pointer;
+      transition: opacity .2s;
+      white-space: nowrap;
+    }
+    #connect-btn:hover { opacity: .85; }
+
+    /* ── STATUS BAR ── */
+    #status-bar {
+      background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid var(--border);
+      padding: 7px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      display: none;
+    }
+    .status-left { display: flex; align-items: center; gap: 10px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .status-dot.live { background: var(--accent); animation: pulse 2s infinite; }
+    .status-dot.offline { background: var(--warn); }
+    .status-dot.error  { background: var(--danger); }
+    #status-text { color: var(--t2); }
+    #last-updated { color: var(--t3); }
+    #refresh-btn {
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 10px;
+      font-size: 11px; color: var(--t2); cursor: pointer;
+      transition: all .15s;
+    }
+    #refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(.75); }
+    }
+
+    /* ── MAIN CONTENT ── */
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 28px; margin-bottom: 30px;
+    }
+    .logo { display: flex; align-items: center; gap: 14px; }
+    .logo-mark {
+      width: 46px; height: 46px; border-radius: 14px;
+      background: linear-gradient(135deg, #10FBCF 0%, #4FDBFB 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px; color: #002C2A;
+    }
+    .logo-name { font-size: 21px; font-weight: 700; letter-spacing: -.5px; }
+    .logo-name em { color: var(--accent); font-style: normal; }
+    .header-chips { display: flex; gap: 10px; align-items: center; }
+    .chip {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 16px; border-radius: 999px;
+      font-size: 12px; font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--card); color: var(--t2);
+    }
+    .chip.live { color: var(--accent); border-color: rgba(16,251,207,0.22); background: rgba(16,251,207,0.07); }
+
+    .page-hero { margin-bottom: 28px; }
+    .page-hero h1 { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 6px; }
+    .page-hero h1 .grad { background: linear-gradient(90deg,#10FBCF,#4FDBFB); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .page-hero p { font-size: 14px; color: var(--t2); }
+
+    .filter-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .filter-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--t3); }
+    .tabs { display: flex; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 4px; gap: 3px; }
+    .tab { padding: 7px 22px; border-radius: 9px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--t2); background: transparent; border: none; transition: all .2s; }
+    .tab:hover { color: var(--t1); background: rgba(255,255,255,0.05); }
+    .tab.active { background: rgba(16,251,207,0.12); color: var(--accent); border: 1px solid rgba(16,251,207,0.22); }
+
+    .kpi-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; margin-bottom: 22px; }
+    .kpi {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 20px 18px;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: all .22s ease;
+    }
+    .kpi::after { content:''; position:absolute; top:0;left:0;right:0;height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity .22s; }
+    .kpi:hover { transform:translateY(-3px); border-color:rgba(16,251,207,0.15); background:var(--card-hover); }
+    .kpi.active { border-color:rgba(16,251,207,0.32); background:rgba(16,251,207,0.055); box-shadow:0 0 48px rgba(16,251,207,0.07); }
+    .kpi.active::after { opacity:1; }
+    .kpi-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+    .kpi-icon { width:34px;height:34px;border-radius:9px; background:rgba(16,251,207,0.1); display:flex;align-items:center;justify-content:center;font-size:15px; }
+    .badge { font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px; }
+    .badge-ok   { background:rgba(16,251,207,0.12); color:#10FBCF; }
+    .badge-warn { background:rgba(247,183,49,0.14);  color:#F7B731; }
+    .badge-bad  { background:rgba(252,92,101,0.14);  color:#FC5C65; }
+    .kpi-meta { font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px;font-weight:600; }
+    .kpi-val  { font-size:30px;font-weight:900;letter-spacing:-1.5px;line-height:1;margin-bottom:4px; }
+    .kpi-sub  { font-size:12px;color:var(--t3);margin-bottom:12px; }
+    .kpi-sub span { color:var(--t2); }
+    .bar-track { background:rgba(255,255,255,0.07);border-radius:999px;height:4px;overflow:hidden;margin-bottom:8px; }
+    .bar-fill  { height:100%;border-radius:999px;background:linear-gradient(90deg,#10FBCF,#4FDBFB);transition:width .9s cubic-bezier(.34,1.56,.64,1);position:relative; }
+    .bar-fill::after { content:'';position:absolute;right:0;top:0;bottom:0;width:5px;background:#fff;border-radius:999px;opacity:.7; }
+    .bar-fill.warn { background:linear-gradient(90deg,#F7B731,#FFCE54); }
+    .bar-fill.bad  { background:linear-gradient(90deg,#FC5C65,#FF8A8A); }
+    .kpi-footer { display:flex;justify-content:space-between;font-size:12px; }
+    .kpi-pct.ok   { color:var(--ok); font-weight:700; }
+    .kpi-pct.warn { color:var(--warn); font-weight:700; }
+    .kpi-pct.bad  { color:var(--danger); font-weight:700; }
+
+    .main-row { display:grid;grid-template-columns:1fr 310px;gap:18px;margin-bottom:18px; }
+    .card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px; }
+    .card-hd { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px; }
+    .card-title { font-size:15px;font-weight:700;margin-bottom:2px; }
+    .card-sub   { font-size:12px;color:var(--t3); }
+    .legend { display:flex;gap:14px; }
+    .leg { display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2); }
+    .leg-dot { width:10px;height:10px;border-radius:50%; }
+    .chart-wrap { height:290px;position:relative; }
+    .side { display:flex;flex-direction:column;gap:14px; }
+    .side-card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px 20px; }
+    .side-title { font-size:13px;font-weight:700;margin-bottom:14px; }
+    .src-item { margin-bottom:13px; }
+    .src-row  { display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px; }
+    .src-name { display:flex;align-items:center;gap:7px;color:var(--t2); }
+    .src-dot  { width:7px;height:7px;border-radius:50%;flex-shrink:0; }
+    .src-val  { font-weight:700;color:var(--t1); }
+    .src-foot { display:flex;justify-content:space-between;font-size:10.5px;color:var(--t3);margin-top:3px; }
+    .divider  { height:1px;background:var(--border);margin:14px 0; }
+    .ann-row  { display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:12px; }
+    .ann-bar  { flex:1;height:3px;background:rgba(255,255,255,0.07);border-radius:999px;overflow:hidden; }
+    .ann-fill { height:100%;border-radius:999px; }
+    .ann-pct  { width:30px;text-align:right;font-weight:700;color:var(--t1); }
+
+    .spark-row { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px; }
+    .spark-card { background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 14px 10px; }
+    .spark-lbl  { font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:6px; }
+    .spark-wrap { height:44px; }
+
+    .tbl-section { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px;overflow-x:auto; }
+    .tbl-hd { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .m-sel { display:flex;gap:7px;flex-wrap:wrap; }
+    .m-btn { padding:6px 13px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--t2);background:rgba(255,255,255,0.05);border:1px solid var(--border);transition:all .18s; }
+    .m-btn:hover { color:var(--t1); }
+    .m-btn.active { background:rgba(16,251,207,0.1);color:var(--accent);border-color:rgba(16,251,207,0.22); }
+
+    table { width:100%;border-collapse:collapse;font-size:12.5px; }
+    thead th { padding:9px 10px;text-align:center;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;font-size:10.5px;border-bottom:1px solid var(--border); }
+    thead th:first-child { text-align:left; }
+    tbody td { padding:10px 10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.035);color:var(--t2); }
+    tbody td:first-child { text-align:left;color:var(--t1);font-weight:600; }
+    tbody tr:last-child td { border-bottom:none; }
+    tbody tr:hover td { background:rgba(255,255,255,0.025); }
+    .c-cur  { color:var(--accent)!important;font-weight:700!important; }
+    .c-act  { color:#fff!important;font-weight:700; }
+    .c-tgt  { color:var(--t3)!important;font-size:11px; }
+    .c-fut  { color:rgba(255,255,255,0.15)!important; }
+    .c-ok   { color:var(--ok)!important;font-weight:700; }
+    .c-warn { color:var(--warn)!important;font-weight:700; }
+    .c-bad  { color:var(--danger)!important;font-weight:700; }
+    .row-divider td { border-top:1px solid var(--border); }
+
+    .foot { text-align:center;font-size:11px;color:var(--t3);margin-top:28px;padding-top:20px;border-top:1px solid var(--border); }
+
+    /* spinner overlay for refreshing */
+    #refresh-spin {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,20,18,0.5);
+      align-items: center; justify-content: center;
+      font-size: 14px; color: var(--accent);
+    }
+    #refresh-spin.show { display: flex; }
+    .spin-box { background: var(--bg2); border: 1px solid rgba(16,251,207,0.2); border-radius: 16px; padding: 28px 40px; text-align: center; }
+    .spin-icon { font-size: 28px; animation: spin 1s linear infinite; display: block; margin-bottom: 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- STATUS BAR — always visible, changes based on connection state -->
+<div id="status-bar" style="display:flex">
+  <div class="status-left">
+    <div class="status-dot offline" id="status-dot"></div>
+    <span id="status-text">Connecting to local server…</span>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <span id="last-updated"></span>
+    <button id="refresh-btn" onclick="fetchAndRender(true)">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- OFFLINE BANNER — shown only when server isn't running -->
+<div id="setup-banner" style="display:none">
+  <span class="setup-icon">⚠️</span>
+  <span class="setup-text">
+    <strong>Local server not running.</strong> Open a terminal in the dashboard folder and run: <code style="background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:5px;color:var(--accent)">python server.py</code>
+  </span>
+  <button id="connect-btn" onclick="fetchAndRender(true)" style="white-space:nowrap">Retry →</button>
+</div>
+
+<!-- REFRESH OVERLAY -->
+<div id="refresh-spin">
+  <div class="spin-box">
+    <span class="spin-icon">⟳</span>
+    Fetching latest data…
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">ca</div>
+      <div class="logo-name">cambri<em>.io</em></div>
+    </div>
+    <div class="header-chips">
+      <div class="chip live" id="live-chip"><div style="width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite"></div> <span id="chip-label">Demo data</span></div>
+      <div class="chip">FY 2026</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <h1>Demand Plan <span class="grad">vs Actuals</span></h1>
+    <p>Top-of-funnel performance · January — December 2026</p>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <span class="filter-label">Source</span>
+    <div class="tabs">
+      <button class="tab active" onclick="setSource('all')">All Sources</button>
+      <button class="tab" onclick="setSource('marketing')">Marketing</button>
+      <button class="tab" onclick="setSource('bdr')">BDR</button>
+      <button class="tab" onclick="setSource('partner')">Partner</button>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-row" id="kpi-row"></div>
+
+  <!-- CHART + SIDE -->
+  <div class="main-row">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title" id="chart-title">Monthly Performance</div>
+          <div class="card-sub">Bars = monthly · Lines = cumulative year-to-date</div>
+        </div>
+        <div class="legend">
+          <div class="leg"><div class="leg-dot" style="background:rgba(16,251,207,0.3)"></div>Target</div>
+          <div class="leg"><div class="leg-dot" style="background:#10FBCF"></div>Actual</div>
+          <div class="leg"><div class="leg-dot" style="background:rgba(255,255,255,0.25)"></div>Cum. Target</div>
+          <div class="leg"><div class="leg-dot" style="background:#4FDBFB"></div>Cum. Actual</div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+    </div>
+    <div class="side">
+      <div class="side-card" style="flex:1">
+        <div class="side-title" id="mix-title">Source Mix · YTD</div>
+        <div id="mix-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPARKLINES -->
+  <div class="spark-row" id="spark-row"></div>
+
+  <!-- TABLE -->
+  <div class="tbl-section">
+    <div class="tbl-hd">
+      <div class="card-title">Monthly Breakdown</div>
+      <div class="m-sel" id="m-sel"></div>
+    </div>
+    <table id="tbl"></table>
+  </div>
+
+  <div class="foot" id="dash-foot">
+    Cambri · 2026 Demand Plan Dashboard · Targets are fixed; actuals are fetched live from Google Sheets.
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   FIXED TARGETS (set once per year)
+═══════════════════════════════════════════════════════════ */
+const TARGETS = {
+  marketing: { s1:130,    s2:104,  poc:36.4, wins:18.2, value:2275000 },
+  bdr:       { s1:313,    s2:72,   poc:19.4, wins:9.7,  value:730000  },
+  partner:   { s1:50,     s2:22,   poc:11,   wins:5.5,  value:550000  },
+};
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const SRCS   = ['marketing','bdr','partner'];
+const SNAME  = { marketing:'Marketing', bdr:'BDR', partner:'Partner' };
+const SCOL   = { marketing:'#10FBCF',   bdr:'#4FDBFB', partner:'#A78BFA' };
+// Map sheet labels → internal keys
+const SRC_MAP = { 'marketing':'marketing','bdr':'bdr','partner':'partner' };
+const MET_MAP = { 's1':'s1','s2':'s2','poc':'poc','wins #':'wins','wins €':'value' };
+
+const METRICS = [
+  { key:'s1',    icon:'⚡', label:'Opps Created',   short:'Opps Created', fmt:v=>Math.round(v).toLocaleString() },
+  { key:'s2',    icon:'🎯', label:'Advanced to S2',  short:'Adv. to S2',  fmt:v=>Math.round(v).toLocaleString() },
+  { key:'poc',   icon:'🔬', label:'POCs',             short:'POCs',         fmt:v=>Math.round(v).toLocaleString() },
+  { key:'wins',  icon:'🏆', label:'Wins #',           short:'Wins #',       fmt:v=>Math.round(v).toLocaleString() },
+  { key:'value', icon:'💶', label:'Wins €',           short:'Wins €',       fmt:v=>v>=1e6?'€'+(v/1e6).toFixed(2)+'M':'€'+Math.round(v/1000)+'K' },
+];
+
+/* ═══════════════════════════════════════════════════════════
+   ACTUALS — populated from Google Sheets (or demo)
+   Structure: actuals[source][metricKey] = [jan,feb,...,dec]
+═══════════════════════════════════════════════════════════ */
+let ACTUALS = buildDemoActuals();
+
+function buildDemoActuals() {
+  return {
+    marketing: { s1:[9,null,null,null,null,null,null,null,null,null,null,null], s2:[7,null,null,null,null,null,null,null,null,null,null,null], poc:[2,null,null,null,null,null,null,null,null,null,null,null], wins:[1,null,null,null,null,null,null,null,null,null,null,null], value:[150000,null,null,null,null,null,null,null,null,null,null,null] },
+    bdr:       { s1:[22,null,null,null,null,null,null,null,null,null,null,null], s2:[5,null,null,null,null,null,null,null,null,null,null,null], poc:[1,null,null,null,null,null,null,null,null,null,null,null], wins:[1,null,null,null,null,null,null,null,null,null,null,null], value:[75000,null,null,null,null,null,null,null,null,null,null,null] },
+    partner:   { s1:[5,null,null,null,null,null,null,null,null,null,null,null], s2:[2,null,null,null,null,null,null,null,null,null,null,null], poc:[1,null,null,null,null,null,null,null,null,null,null,null], wins:[0,null,null,null,null,null,null,null,null,null,null,null], value:[0,null,null,null,null,null,null,null,null,null,null,null] },
+  };
+}
+
+/* derive CURRENT_MONTH from actuals: last month with any non-null actual */
+function getCurrentMonth() {
+  let last = -1;
+  SRCS.forEach(s => METRICS.forEach(m => {
+    const a = ACTUALS[s][m.key];
+    for (let i = 11; i >= 0; i--) {
+      if (a[i] !== null && i > last) last = i;
+    }
+  }));
+  return Math.max(0, last);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GITHUB PAGES STATIC FETCH  (data.json — refreshed hourly by GitHub Actions)
+═══════════════════════════════════════════════════════════ */
+let refreshTimer = null;
+
+// connectSheet() still wired to the Retry button in the offline banner
+function connectSheet() { fetchAndRender(true); }
+
+async function fetchSheetData() {
+  const resp = await fetch('./data.json', { cache: 'no-store' });
+  if (!resp.ok) throw new Error(`data.json HTTP ${resp.status}`);
+  const payload = await resp.json();
+  if (payload.error) throw new Error(payload.error);
+
+  // data.json contains { targets, actuals, last_fetched }
+  // actuals[src][metric] = [jan…dec] where null = no data, 0 = real zero
+  // Overwrite TARGETS too (in case values were updated)
+  Object.assign(TARGETS, payload.targets);
+  return payload.actuals;
+}
+
+function parseActualsCsv(csv) {
+  const rows = csv.trim().split('\n').map(line => {
+    // Handle quoted fields (Google Sheets wraps values in quotes)
+    const fields = [];
+    let inQ = false, cur = '';
+    for (const ch of line + ',') {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { fields.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    return fields;
+  });
+
+  // Detect whether the sheet has the month-number row above the headers.
+  // Row index 0 is month-numbers if its 3rd cell is a bare number (1, 2 …)
+  // and its 1st cell is NOT 'source'.
+  const firstCellR0 = (rows[0]?.[0] || '').toLowerCase().replace(/[^a-z]/g,'');
+  const thirdCellR0 = (rows[0]?.[2] || '').trim();
+  const hasNumRow   = firstCellR0 !== 'source' && /^[0-9]+$/.test(thirdCellR0);
+  // Skip 1 header row (standard) or 2 header rows (month-number format)
+  const data = rows.slice(hasNumRow ? 2 : 1);
+  const result = {
+    marketing: { s1:Array(12).fill(null), s2:Array(12).fill(null), poc:Array(12).fill(null), wins:Array(12).fill(null), value:Array(12).fill(null) },
+    bdr:       { s1:Array(12).fill(null), s2:Array(12).fill(null), poc:Array(12).fill(null), wins:Array(12).fill(null), value:Array(12).fill(null) },
+    partner:   { s1:Array(12).fill(null), s2:Array(12).fill(null), poc:Array(12).fill(null), wins:Array(12).fill(null), value:Array(12).fill(null) },
+  };
+
+  data.forEach(row => {
+    if (row.length < 3) return;
+    const srcRaw = (row[0]||'').toLowerCase().trim();
+    const metRaw = (row[1]||'').toLowerCase().trim();
+    const src = SRC_MAP[srcRaw];
+    const met = MET_MAP[metRaw];
+    if (!src || !met) return;
+
+    for (let i = 0; i < 12; i++) {
+      const raw = (row[2 + i] || '').replace(/[€$,\s]/g,'').trim();
+      result[src][met][i] = raw === '' ? null : parseFloat(raw);
+    }
+  });
+
+  return result;
+}
+
+async function fetchAndRender(showSpinner = false) {
+  if (showSpinner) document.getElementById('refresh-spin').classList.add('show');
+  setStatus('loading', 'Connecting to local server…');
+
+  try {
+    ACTUALS = await fetchSheetData();
+    const now = new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('last-updated').textContent = `Updated ${now}`;
+    document.getElementById('status-dot').className = 'status-dot live';
+    setStatus('live', 'Live · SharePoint via server.py');
+    document.getElementById('chip-label').textContent = 'Live · SharePoint';
+    document.getElementById('setup-banner').style.display = 'none';
+  } catch(e) {
+    setStatus('error', 'server.py not running — showing demo data');
+    document.getElementById('status-dot').className = 'status-dot error';
+    document.getElementById('setup-banner').style.display = 'flex';
+    document.getElementById('last-updated').textContent = '';
+    console.warn('Server unavailable:', e.message);
+  } finally {
+    document.getElementById('refresh-spin').classList.remove('show');
+    renderAll();
+  }
+
+  // Auto-refresh every 5 minutes (matches server refresh interval)
+  clearTimeout(refreshTimer);
+  refreshTimer = setTimeout(() => fetchAndRender(false), 300000);
+}
+
+function setStatus(type, msg) {
+  const dot  = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  dot.className  = 'status-dot ' + (type === 'live' ? 'live' : type === 'error' ? 'error' : 'offline');
+  text.textContent = msg;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let curSrc    = 'all';
+let curMetric = 's1';
+let tblMetric = 's1';
+let mainChart = null;
+const sparkCharts = {};
+
+/* ═══════════════════════════════════════════════════════════
+   DATA HELPERS
+═══════════════════════════════════════════════════════════ */
+function getD(key) {
+  const tgt = curSrc === 'all'
+    ? SRCS.reduce((a,s) => a + TARGETS[s][key], 0)
+    : TARGETS[curSrc][key];
+  const acts = curSrc === 'all'
+    ? MONTHS.map((_,i) => {
+        const vs = SRCS.map(s => ACTUALS[s][key][i]);
+        return vs.every(v=>v===null) ? null : vs.reduce((a,v)=>a+(v||0),0);
+      })
+    : [...ACTUALS[curSrc][key]];
+  return { yr: tgt, mo: tgt/12, acts };
+}
+
+function pct(a, t) { return t===0 ? 0 : Math.round(a/t*100); }
+function pctClass(p)  { return p>=90?'ok':p>=70?'warn':'bad'; }
+function badgeClass(p){ return p>=90?'badge-ok':p>=70?'badge-warn':'badge-bad'; }
+function badgeTxt(p)  { return p>=90?'On Track':p>=70?'Behind':'At Risk'; }
+function cellClass(p) { return p>=90?'c-ok':p>=70?'c-warn':'c-bad'; }
+function barClass(p)  { return p>=90?'':p>=70?'warn':'bad'; }
+function fmtM(key,v)  { return METRICS.find(m=>m.key===key).fmt(v); }
+
+/* ═══════════════════════════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════════════════════════ */
+function renderKPIs() {
+  const CM  = getCurrentMonth();
+  const row = document.getElementById('kpi-row');
+  row.innerHTML = METRICS.map(m => {
+    const d   = getD(m.key);
+    const ytA = d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0);
+    const ytT = d.mo*(CM+1);
+    const p   = pct(ytA,ytT);
+    const bw  = Math.min(p,100);
+    return `
+      <div class="kpi ${curMetric===m.key?'active':''}" onclick="setMetric('${m.key}')">
+        <div class="kpi-top">
+          <div class="kpi-icon">${m.icon}</div>
+          <div class="badge ${badgeClass(p)}">${badgeTxt(p)}</div>
+        </div>
+        <div class="kpi-meta">${m.short}</div>
+        <div class="kpi-val">${fmtM(m.key,ytA)}</div>
+        <div class="kpi-sub">of <span>${fmtM(m.key,ytT)}</span> YTD target</div>
+        <div class="bar-track">
+          <div class="bar-fill ${barClass(p)}" style="width:${bw}%"></div>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-pct ${pctClass(p)}">${p}%</span>
+          <span style="color:var(--t3);font-size:11px">${MONTHS[CM]} attainment</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN CHART
+═══════════════════════════════════════════════════════════ */
+function renderChart() {
+  const m = METRICS.find(x=>x.key===curMetric);
+  const d = getD(curMetric);
+  document.getElementById('chart-title').textContent = m.label + ' — Monthly Performance';
+
+  const cumTgt = MONTHS.map((_,i)=>d.mo*(i+1));
+  let run = 0;
+  const cumAct = MONTHS.map((_,i)=>{
+    if (d.acts[i]===null) return null;
+    run += d.acts[i]; return run;
+  });
+
+  if (mainChart) mainChart.destroy();
+  const ctx = document.getElementById('mainChart').getContext('2d');
+
+  mainChart = new Chart(ctx,{
+    data:{
+      labels: MONTHS,
+      datasets:[
+        { type:'bar', label:'Target', data:MONTHS.map(()=>d.mo), yAxisID:'y',
+          backgroundColor:'rgba(16,251,207,0.1)', borderColor:'rgba(16,251,207,0.25)',
+          borderWidth:1, borderRadius:6, order:3 },
+        { type:'bar', label:'Actual', data:d.acts, yAxisID:'y',
+          backgroundColor: d.acts.map(v=>{
+            if(v===null) return 'transparent';
+            const p=pct(v,d.mo);
+            return p>=90?'#10FBCF':p>=70?'#F7B731':'#FC5C65';
+          }),
+          borderColor:'transparent', borderRadius:6, order:2 },
+        { type:'line', label:'Cum. Target', data:cumTgt, yAxisID:'y2',
+          borderColor:'rgba(255,255,255,0.22)', borderWidth:1.5,
+          borderDash:[6,4], pointRadius:0, fill:false, tension:0.35, order:1 },
+        { type:'line', label:'Cum. Actual', data:cumAct, yAxisID:'y2',
+          borderColor:'#4FDBFB', borderWidth:2.5,
+          pointRadius:cumAct.map(v=>v!==null?4:0),
+          pointBackgroundColor:'#4FDBFB',
+          fill:false, tension:0.35, order:0 },
+      ],
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(0,18,17,0.97)',
+          borderColor:'rgba(16,251,207,0.18)', borderWidth:1,
+          titleColor:'#fff', bodyColor:'rgba(255,255,255,0.65)',
+          padding:12, cornerRadius:10,
+          callbacks:{ label:ctx=>{const v=ctx.raw; return v===null?ctx.dataset.label+': —':ctx.dataset.label+': '+m.fmt(v);} }
+        }
+      },
+      scales:{
+        x:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'rgba(255,255,255,0.45)',font:{size:11}} },
+        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'rgba(255,255,255,0.4)',font:{size:11},callback:v=>m.fmt(v)}, position:'left' },
+        y2:{ grid:{display:false}, ticks:{color:'rgba(255,255,255,0.25)',font:{size:10.5},callback:v=>m.fmt(v)}, position:'right' },
+      },
+    },
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SOURCE MIX
+═══════════════════════════════════════════════════════════ */
+function renderMix() {
+  const CM   = getCurrentMonth();
+  const m    = METRICS.find(x=>x.key===curMetric);
+  const body = document.getElementById('mix-body');
+  document.getElementById('mix-title').textContent = 'Source Mix · '+m.short;
+  const annTot = SRCS.reduce((a,s)=>a+TARGETS[s][curMetric],0);
+  body.innerHTML = `
+    ${SRCS.map(s=>{
+      const ytA = ACTUALS[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
+      const ytT = (TARGETS[s][curMetric]/12)*(CM+1);
+      const p   = pct(ytA,ytT);
+      const sh  = ytA>0&&SRCS.map(s2=>ACTUALS[s2][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0)).reduce((a,b)=>a+b,0)>0
+        ? Math.round(ytA/SRCS.map(s2=>ACTUALS[s2][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0)).reduce((a,b)=>a+b,0)*100) : 0;
+      return `
+        <div class="src-item">
+          <div class="src-row">
+            <span class="src-name"><span class="src-dot" style="background:${SCOL[s]}"></span>${SNAME[s]}</span>
+            <span class="src-val">${fmtM(curMetric,ytA)}</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.min(p,100)}%;background:${SCOL[s]};"></div></div>
+          <div class="src-foot"><span>${sh}% of total</span><span>${p}% of target</span></div>
+        </div>`;
+    }).join('')}
+    <div class="divider"></div>
+    <div class="side-title" style="margin-bottom:10px">Annual Target Mix</div>
+    ${SRCS.map(s=>{
+      const sh=Math.round(TARGETS[s][curMetric]/annTot*100);
+      return `<div class="ann-row">
+        <span class="src-dot" style="background:${SCOL[s]}"></span>
+        <span style="color:var(--t2);font-size:12px;width:70px">${SNAME[s]}</span>
+        <div class="ann-bar"><div class="ann-fill" style="width:${sh}%;background:${SCOL[s]}"></div></div>
+        <span class="ann-pct">${sh}%</span>
+      </div>`;
+    }).join('')}`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SPARKLINES
+═══════════════════════════════════════════════════════════ */
+function renderSparks() {
+  Object.values(sparkCharts).forEach(c=>c.destroy());
+  const row = document.getElementById('spark-row');
+  const others = METRICS.filter(m=>m.key!==curMetric);
+  row.innerHTML = others.map(m=>`
+    <div class="spark-card" onclick="setMetric('${m.key}')" style="cursor:pointer">
+      <div class="spark-lbl">${m.short}</div>
+      <div class="spark-wrap"><canvas id="spk-${m.key}"></canvas></div>
+    </div>`).join('');
+  others.forEach(m=>{
+    const d  = getD(m.key);
+    const el = document.getElementById('spk-'+m.key);
+    if(!el) return;
+    sparkCharts[m.key] = new Chart(el.getContext('2d'),{
+      type:'line',
+      data:{
+        labels:MONTHS,
+        datasets:[
+          { data:MONTHS.map(()=>d.mo), borderColor:'rgba(16,251,207,0.2)', borderWidth:1, borderDash:[4,3], pointRadius:0, fill:false, tension:0.3 },
+          { data:d.acts, borderColor:'#10FBCF', borderWidth:2, pointRadius:d.acts.map(v=>v!==null?3:0), pointBackgroundColor:'#10FBCF', fill:false, tension:0.3 },
+        ],
+      },
+      options:{ responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:400} },
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABLE
+═══════════════════════════════════════════════════════════ */
+function renderMSel() {
+  document.getElementById('m-sel').innerHTML = METRICS.map(m=>`
+    <button class="m-btn ${tblMetric===m.key?'active':''}" onclick="setTblMetric('${m.key}')">${m.short}</button>`).join('');
+}
+
+function renderTable() {
+  const CM  = getCurrentMonth();
+  const m   = METRICS.find(x=>x.key===tblMetric);
+  const d   = getD(tblMetric);
+  let run   = 0;
+  const cumAct = MONTHS.map((_,i)=>{ if(d.acts[i]===null) return null; run+=d.acts[i]; return run; });
+  const cumTgt = MONTHS.map((_,i)=>d.mo*(i+1));
+  const tbl = document.getElementById('tbl');
+
+  tbl.innerHTML = `
+    <thead><tr>
+      <th>Row</th>
+      ${MONTHS.map((mn,i)=>`<th class="${i===CM?'c-cur':''}">${mn}</th>`).join('')}
+      <th>FY Total</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="c-tgt">Monthly Target</td>
+        ${MONTHS.map(()=>`<td class="c-tgt">${fmtM(tblMetric,d.mo)}</td>`).join('')}
+        <td class="c-tgt">${fmtM(tblMetric,d.yr)}</td>
+      </tr>
+      <tr>
+        <td>Actual</td>
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; return v===null?`<td class="c-fut">—</td>`:`<td class="c-act">${fmtM(tblMetric,v)}</td>`; }).join('')}
+        <td class="c-act">${fmtM(tblMetric,d.acts.reduce((s,v)=>s+(v||0),0))}</td>
+      </tr>
+      <tr>
+        <td>Attainment</td>
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)}">${p}%</td>`; }).join('')}
+        <td>${(()=>{ const a=d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0),t=d.mo*(CM+1),p=pct(a,t); return `<span class="${cellClass(p)}">${p}%</span>`; })()}</td>
+      </tr>
+      <tr class="row-divider">
+        <td class="c-tgt">Cum. Target</td>
+        ${MONTHS.map((_,i)=>`<td class="c-tgt">${fmtM(tblMetric,cumTgt[i])}</td>`).join('')}
+        <td class="c-tgt">${fmtM(tblMetric,d.yr)}</td>
+      </tr>
+      <tr>
+        <td>Cum. Actual</td>
+        ${MONTHS.map((_,i)=>{ const v=cumAct[i]; return v===null?`<td class="c-fut">—</td>`:`<td class="c-act">${fmtM(tblMetric,v)}</td>`; }).join('')}
+        <td class="c-act">${fmtM(tblMetric,run)}</td>
+      </tr>
+      <tr>
+        <td>Cum. Attainment</td>
+        ${MONTHS.map((_,i)=>{ const v=cumAct[i]; if(v===null) return `<td class="c-fut">—</td>`; const p=pct(v,cumTgt[i]); return `<td class="${cellClass(p)}">${p}%</td>`; }).join('')}
+        <td>${(()=>{ const p=pct(run,d.yr); return `<span class="${cellClass(p)}">${p}%</span>`; })()}</td>
+      </tr>
+    </tbody>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EVENT HANDLERS
+═══════════════════════════════════════════════════════════ */
+function setSource(src) {
+  curSrc = src;
+  document.querySelectorAll('.tab').forEach((el,i)=>{
+    el.classList.toggle('active',['all','marketing','bdr','partner'][i]===src);
+  });
+  renderAll();
+}
+function setMetric(key)    { curMetric=key; renderKPIs(); renderChart(); renderMix(); renderSparks(); }
+function setTblMetric(key) { tblMetric=key; renderMSel(); renderTable(); }
+function renderAll()       { renderKPIs(); renderChart(); renderMix(); renderSparks(); renderMSel(); renderTable(); }
+
+// Render demo data immediately, then try to connect to server
+renderAll();
+fetchAndRender(false);
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+name: Refresh demand plan data
+
+on:
+  schedule:
+    # Runs at the top of every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    # Allow manual trigger from the GitHub Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests openpyxl
+
+      - name: Run compute script
+        run: python compute.py
+
+      - name: Commit and push data.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          # Only commit if there are actual changes
+          git diff --cached --quiet || git commit -m "chore: refresh data.json [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+          git push
