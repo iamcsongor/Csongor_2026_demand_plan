@@ -186,7 +186,8 @@
     .kpi-pct.warn { color:var(--warn); font-weight:700; }
     .kpi-pct.bad  { color:var(--danger); font-weight:700; }
 
-    .main-row { display:grid;grid-template-columns:1fr 310px;gap:18px;margin-bottom:18px; }
+    .main-row   { margin-bottom:18px; }
+    .bottom-row { display:grid;grid-template-columns:340px 1fr;gap:18px;margin-bottom:18px;align-items:stretch; }
     .card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px; }
     .card-hd { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px; }
     .card-title { font-size:15px;font-weight:700;margin-bottom:2px; }
@@ -195,8 +196,8 @@
     .leg { display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2); }
     .leg-dot { width:10px;height:10px;border-radius:50%; }
     .chart-wrap { height:290px;position:relative; }
-    .side { display:flex;flex-direction:column;gap:14px; }
-    .side-card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px 20px; }
+    .arr-card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px 22px;display:flex;flex-direction:column; }
+    .arr-chart-wrap { flex:1;min-height:130px;position:relative;margin-top:12px; }
     .side-title { font-size:13px;font-weight:700;margin-bottom:14px; }
     .src-item { margin-bottom:13px; }
     .src-row  { display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px; }
@@ -238,9 +239,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width:1100px) {
-      .main-row { grid-template-columns:1fr; }
-      .side { flex-direction:row; }
-      .side-card { flex:1; }
+      .bottom-row { grid-template-columns:1fr; }
     }
     @media (max-width:900px) {
       .wrap { padding:0 20px 36px; }
@@ -258,11 +257,10 @@
       .kpi-row  { grid-template-columns:1fr 1fr; }
       .kpi-row .kpi:last-child { grid-column:1/-1; }
       .kpi-val  { font-size:22px; }
-      .main-row { grid-template-columns:1fr; }
-      .side { flex-direction:column; }
       .chart-wrap { height:220px; }
       .legend { flex-wrap:wrap;gap:8px; }
       .card { padding:16px 14px; }
+      .arr-card { padding:16px 14px; }
       .card-hd  { flex-direction:column;gap:10px;align-items:flex-start; }
       .tbl-section { padding:14px 12px; }
       .tbl-hd { flex-direction:column;gap:12px;align-items:flex-start; }
@@ -356,7 +354,7 @@
   <!-- KPI CARDS -->
   <div class="kpi-row" id="kpi-row"></div>
 
-  <!-- CHART + SIDE -->
+  <!-- CHART (full width) -->
   <div class="main-row">
     <div class="card">
       <div class="card-hd">
@@ -373,32 +371,33 @@
       </div>
       <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
     </div>
-    <div class="side">
-      <!-- ARR FORECAST CARD -->
-      <div class="side-card">
-        <div class="side-title">ARR Forecast <span style="font-size:10px;color:var(--t3);font-weight:400;margin-left:4px">FY 2026</span></div>
-        <div id="arr-kpis"></div>
-        <div style="height:145px;position:relative;margin-top:12px">
-          <canvas id="arrChart"></canvas>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:10px;font-size:10.5px;color:var(--t3)">
-          <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#10FBCF;display:inline-block;border-radius:2px"></span>Actual</span>
-          <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#4FDBFB;display:inline-block;border-radius:2px;opacity:.7;border-bottom:2px dashed #4FDBFB;height:0"></span>Forecast</span>
-          <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:rgba(255,255,255,0.25);display:inline-block;border-radius:2px"></span>Target</span>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <!-- SOURCE MIX (full width) -->
-  <div class="card" style="margin-bottom:18px">
-    <div class="card-hd" style="margin-bottom:16px">
-      <div>
-        <div class="card-title" id="mix-title">Source Mix · Opps Created</div>
-        <div class="card-sub">Year-to-date actuals vs targets by source</div>
+  <!-- ARR FORECAST + SOURCE MIX ROW -->
+  <div class="bottom-row">
+    <!-- ARR FORECAST -->
+    <div class="arr-card">
+      <div class="side-title">ARR Forecast <span style="font-size:10px;color:var(--t3);font-weight:400;margin-left:4px">FY 2026</span></div>
+      <div id="arr-kpis"></div>
+      <div class="arr-chart-wrap">
+        <canvas id="arrChart"></canvas>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:10px;font-size:10.5px;color:var(--t3)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#10FBCF;display:inline-block;border-radius:2px"></span>Actual</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#4FDBFB;display:inline-block;border-radius:2px;opacity:.7;border-bottom:2px dashed #4FDBFB;height:0"></span>Forecast</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:rgba(255,255,255,0.25);display:inline-block;border-radius:2px"></span>Target</span>
       </div>
     </div>
-    <div id="mix-body"></div>
+    <!-- SOURCE MIX -->
+    <div class="card">
+      <div class="card-hd" style="margin-bottom:16px">
+        <div>
+          <div class="card-title" id="mix-title">Source Mix · Opps Created</div>
+          <div class="card-sub">Year-to-date actuals vs targets by source</div>
+        </div>
+      </div>
+      <div id="mix-body"></div>
+    </div>
   </div>
 
   <!-- TABLE -->
