@@ -187,7 +187,7 @@
     .kpi-pct.bad  { color:var(--danger); font-weight:700; }
 
     .main-row   { margin-bottom:18px; }
-    .bottom-row { display:grid;grid-template-columns:340px 1fr;gap:18px;margin-bottom:18px;align-items:stretch; }
+    .bottom-row { display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px;align-items:stretch; }
     .card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px; }
     .card-hd { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px; }
     .card-title { font-size:15px;font-weight:700;margin-bottom:2px; }
@@ -440,8 +440,8 @@
       </div>
       <div style="display:flex;gap:12px;margin-top:10px;font-size:10.5px;color:var(--t3)">
         <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#10FBCF;display:inline-block;border-radius:2px"></span>Actual</span>
-        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:#4FDBFB;display:inline-block;border-radius:2px;opacity:.7;border-bottom:2px dashed #4FDBFB;height:0"></span>Forecast</span>
-        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:2px;background:rgba(255,255,255,0.25);display:inline-block;border-radius:2px"></span>Target</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:0;border-bottom:2px dashed #4FDBFB;display:inline-block;opacity:.8"></span>Reforecast</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:16px;height:0;border-bottom:2px dashed rgba(255,255,255,0.25);display:inline-block"></span>Initial Target</span>
       </div>
     </div>
     <!-- SOURCE MIX -->
@@ -496,13 +496,10 @@ const TARGETS = {
   partner:   { s1:50,     s2:22,   poc:11,   wins:5.5,  value:550000  },
 };
 
-/* ── ARR CONFIG ──────────────────────────────────────────────────────────── */
-const ARR_CFG = {
-  start:      0,           // new ARR tracked from zero at Jan 1 2026
-  target:     3_600_000,   // year-end ARR target  (€3.6M)
-  reforecast: 3_400_000,   // current reforecast   (€3.4M)
-  // New ARR booked each month — add actuals as the year progresses
-  monthly: [300_000, 150_000, null, null, null, null, null, null, null, null, null, null],
+/* ── ARR DATA — populated live from data.json / ARR sheet ────────────────── */
+let ARR_DATA = {
+  monthly_target: Array(12).fill(null),
+  monthly_actual: Array(12).fill(null),
 };
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -561,11 +558,15 @@ async function fetchSheetData() {
   const payload = await resp.json();
   if (payload.error) throw new Error(payload.error);
 
-  // data.json contains { targets, actuals, deals, last_fetched }
+  // data.json contains { targets, actuals, arr, deals, last_fetched }
   // actuals[src][metric] = [jan…dec] where null = no data, 0 = real zero
   // Overwrite TARGETS too (in case values were updated)
   Object.assign(TARGETS, payload.targets);
   if (Array.isArray(payload.deals)) DEALS = payload.deals;
+  if (payload.arr) {
+    ARR_DATA.monthly_target = payload.arr.monthly_target || Array(12).fill(null);
+    ARR_DATA.monthly_actual = payload.arr.monthly_actual || Array(12).fill(null);
+  }
   return payload.actuals;
 }
 
@@ -951,52 +952,67 @@ function renderMix() {
 function renderARR() {
   if (arrChart) { arrChart.destroy(); arrChart = null; }
 
-  const { start, target, reforecast, monthly } = ARR_CFG;
   const fmtARR = v => v >= 1e6 ? '€'+(v/1e6).toFixed(2)+'M' : '€'+Math.round(v/1000)+'K';
 
-  // Build cumulative actuals
-  const cumARR = [];
-  let running = start;
+  const monthlyTarget = ARR_DATA.monthly_target;
+  const monthlyActual = ARR_DATA.monthly_actual;
+
+  // Year-end target = sum of all monthly targets (or 3.6M fallback)
+  const yearTarget = monthlyTarget.reduce((s,v) => s + (v || 0), 0) || 3_600_000;
+
+  // Build cumulative actuals (skip nulls at tail)
+  const cumActual = [];
+  let running = 0;
   for (let i = 0; i < 12; i++) {
-    if (monthly[i] !== null) { running += monthly[i]; cumARR.push(running); }
-    else                     { cumARR.push(null); }
+    const v = monthlyActual[i];
+    if (v !== null && v !== undefined) { running += v; cumActual.push(running); }
+    else { cumActual.push(null); }
   }
 
-  // Last known data point
-  let lastIdx = -1;
-  cumARR.forEach((v,i) => { if (v !== null) lastIdx = i; });
-  const lastARR     = lastIdx >= 0 ? cumARR[lastIdx] : start;
-  const projectedYE = reforecast;
+  // Build cumulative initial forecast (target ramp)
+  let tgtRunning = 0;
+  const cumTarget = monthlyTarget.map(v => { tgtRunning += (v || 0); return tgtRunning; });
 
-  // Forecast line: curves from last actual up to the reforecast figure at Dec
-  const forecast = MONTHS.map((_,i) => {
-    if (i < lastIdx)   return null;
+  // Last known actual index
+  let lastIdx = -1;
+  cumActual.forEach((v, i) => { if (v !== null) lastIdx = i; });
+  const lastARR = lastIdx >= 0 ? cumActual[lastIdx] : 0;
+
+  // Auto-compute reforecast: avg monthly rate from actuals × months remaining
+  const nActual = lastIdx + 1;
+  const avgMonthly = nActual > 0 ? lastARR / nActual : 0;
+  const projectedYE = lastARR + avgMonthly * (12 - nActual);
+
+  // Reforecast line: starts from last actual, projects forward at avg rate
+  const reforecastLine = MONTHS.map((_, i) => {
+    if (i < lastIdx)  return null;
     if (i === lastIdx) return lastARR;
-    if (lastIdx === 11) return lastARR;
-    return lastARR + (reforecast - lastARR) * (i - lastIdx) / (11 - lastIdx);
+    if (lastIdx < 0)  return null;
+    return lastARR + avgMonthly * (i - lastIdx);
   });
 
-  // Target ramp (linear Jan→Dec)
-  const tgtRamp = MONTHS.map((_,i) => start + (target - start) * (i + 1) / 12);
-
-  // Attainment vs target
-  const pctTgt   = Math.round(lastARR / target * 100);
+  // Attainment vs year-end target
+  const pctTgt   = yearTarget > 0 ? Math.round(lastARR / yearTarget * 100) : 0;
   const pctClass = pctTgt >= 90 ? 'ok' : pctTgt >= 70 ? 'warn' : 'bad';
 
   document.getElementById('arr-kpis').innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:8px">
       <div>
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:3px">Current ARR</div>
         <div style="font-size:24px;font-weight:900;letter-spacing:-1px;line-height:1">${fmtARR(lastARR)}</div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:3px">Reforecast</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:3px">Reforecast YE</div>
         <div style="font-size:16px;font-weight:700;color:var(--accent2)">${fmtARR(projectedYE)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:600;margin-bottom:3px">Target YE</div>
+        <div style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.45)">${fmtARR(yearTarget)}</div>
       </div>
     </div>
     <div style="font-size:11px;color:var(--t3);margin-bottom:7px">
-      Target <span style="color:var(--t2)">${fmtARR(target)}</span>
-      &nbsp;·&nbsp;<span class="kpi-pct ${pctClass}">${pctTgt}% attained</span>
+      <span class="kpi-pct ${pctClass}">${pctTgt}% of year-end target attained</span>
+      ${nActual > 0 ? `&nbsp;·&nbsp;avg <span style="color:var(--t2)">${fmtARR(avgMonthly)}</span>/mo` : ''}
     </div>
     <div class="bar-track" style="margin-bottom:0">
       <div class="bar-fill ${pctTgt<70?'bad':pctTgt<90?'warn':''}" style="width:${Math.min(pctTgt,100)}%"></div>
@@ -1009,16 +1025,16 @@ function renderARR() {
     data: {
       labels: MONTHS,
       datasets: [
-        { type:'line', label:'Target', data:tgtRamp,
+        { type:'line', label:'Initial Target', data:cumTarget,
           borderColor:'rgba(255,255,255,0.2)', borderWidth:1.5, borderDash:[5,4],
           pointRadius:0, fill:false, tension:0.2 },
-        { type:'line', label:'Actual ARR', data:cumARR,
+        { type:'line', label:'Actual ARR', data:cumActual,
           borderColor:'#10FBCF', borderWidth:2.5,
-          pointRadius: cumARR.map(v=>v!==null?3:0),
+          pointRadius: cumActual.map(v => v !== null ? 3 : 0),
           pointBackgroundColor:'#10FBCF',
           fill:{ target:'origin', above:'rgba(16,251,207,0.06)' },
           tension:0.3 },
-        { type:'line', label:'Forecast', data:forecast,
+        { type:'line', label:'Reforecast', data:reforecastLine,
           borderColor:'#4FDBFB', borderWidth:2, borderDash:[6,3],
           pointRadius:0, fill:false, tension:0.3 },
       ],
@@ -1033,12 +1049,12 @@ function renderARR() {
           borderColor:'rgba(16,251,207,0.18)', borderWidth:1,
           titleColor:'#fff', bodyColor:'rgba(255,255,255,0.65)',
           padding:10, cornerRadius:8,
-          callbacks:{ label: ctx => ctx.raw===null ? null : ctx.dataset.label+': '+fmtARR(ctx.raw) }
+          callbacks:{ label: ctx => ctx.raw === null ? null : ctx.dataset.label+': '+fmtARR(ctx.raw) }
         }
       },
       scales:{
         x:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'rgba(255,255,255,0.4)',font:{size:10}} },
-        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'rgba(255,255,255,0.35)',font:{size:10},callback:v=>fmtARR(v)}, position:'left' },
+        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'rgba(255,255,255,0.35)',font:{size:10},callback:v=>fmtARR(v)}, position:'left', min:0 },
       },
     },
   });

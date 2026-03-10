@@ -79,6 +79,45 @@ def download_workbook():
     return load_workbook(BytesIO(resp.content), data_only=True)
 
 
+def read_arr_sheet(wb):
+    """
+    Read the 'ARR' tab.
+    Row 1: title (skip)
+    Row 2: headers — Month | Monthly Target (€) | Monthly Actual (€)
+    Rows 3–14: Jan–Dec data
+    Returns: { "monthly_target": [float|None]*12, "monthly_actual": [float|None]*12 }
+    Falls back to empty lists if sheet is missing.
+    """
+    if "ARR" not in wb.sheetnames:
+        return {"monthly_target": [None]*12, "monthly_actual": [None]*12}
+
+    ws = wb["ARR"]
+    rows = list(ws.iter_rows(min_row=3, max_row=14, values_only=True))
+
+    monthly_target = []
+    monthly_actual = []
+
+    for row in rows:
+        def _f(v):
+            if v is None:
+                return None
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                return None
+
+        monthly_target.append(_f(row[1]) if len(row) > 1 else None)
+        monthly_actual.append(_f(row[2]) if len(row) > 2 else None)
+
+    # Pad to 12 if sheet has fewer rows
+    while len(monthly_target) < 12:
+        monthly_target.append(None)
+    while len(monthly_actual) < 12:
+        monthly_actual.append(None)
+
+    return {"monthly_target": monthly_target, "monthly_actual": monthly_actual}
+
+
 def read_actuals_sheet(wb):
     """
     Read the 'Actuals' summary sheet.
@@ -275,6 +314,9 @@ def main():
     print("[compute.py] Reading Actuals sheet…")
     actuals = read_actuals_sheet(wb)
 
+    print("[compute.py] Reading ARR sheet…")
+    arr = read_arr_sheet(wb)
+
     print("[compute.py] Reading deal-level data…")
     deals = read_deals(wb)
     wb.close()
@@ -282,6 +324,7 @@ def main():
     payload = {
         "targets":      TARGETS,
         "actuals":      actuals,
+        "arr":          arr,
         "deals":        deals,
         "last_fetched": datetime.datetime.utcnow().isoformat() + "Z",
         "source":       "sharepoint_actuals_sheet",
