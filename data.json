@@ -240,6 +240,1151 @@
       ]
     }
   },
-  "last_fetched": "2026-03-10T09:40:02.015327Z",
+  "deals": [
+    {
+      "id": "006Tu00000Mdv4zIAB",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000Mdv4zIAB/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE Austria",
+      "amount": 0.0,
+      "close_date": "2026-01-23",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Won",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": [
+        0
+      ]
+    },
+    {
+      "id": "006Tu00000UwvO1IAJ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000UwvO1IAJ/view",
+      "owner": "Alex Walker",
+      "name": "Beavertown Innobev",
+      "amount": 33000.0,
+      "close_date": "2026-03-25",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000X51oTIAR",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000X51oTIAR/view",
+      "owner": "Sidney Power",
+      "name": "SCJ - TMRE",
+      "amount": 33000.0,
+      "close_date": "2026-04-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000XR0KKIA1",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000XR0KKIA1/view",
+      "owner": "Sidney Power",
+      "name": "Mizkan - INNO",
+      "amount": 0.0,
+      "close_date": "2026-05-13",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000YFbGcIAL",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000YFbGcIAL/view",
+      "owner": "Alex Walker",
+      "name": "UNILEVER - INSIGHTS - EU",
+      "amount": 0.0,
+      "close_date": "2026-04-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000YFdzyIAD",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000YFdzyIAD/view",
+      "owner": "Alex Walker",
+      "name": "COTY - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-04-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000YfogRIAR",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000YfogRIAR/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - INSIGHTS - IBERIA",
+      "amount": 0.0,
+      "close_date": "2026-05-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000Ys9ltIAB",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000Ys9ltIAB/view",
+      "owner": "Alex Walker",
+      "name": "KUHNE - R&D",
+      "amount": 0.0,
+      "close_date": "2026-06-17",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ZWRAbIAP",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ZWRAbIAP/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Suntory | Alex & Jing",
+      "amount": 100000.0,
+      "close_date": "2026-03-26",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "partner",
+      "channel_raw": "Partner Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000a5AYIIA2",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000a5AYIIA2/view",
+      "owner": "Alex Walker",
+      "name": "STOCK SPIRITS - INSIGHTS",
+      "amount": 0.0,
+      "close_date": "2026-05-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000a81LZIAY",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000a81LZIAY/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - NPTC FOOD - SOLON ACC",
+      "amount": 0.0,
+      "close_date": "2026-05-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000bW4KvIAK",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000bW4KvIAK/view",
+      "owner": "Sidney Power",
+      "name": "Agropur - Quebec",
+      "amount": 0.0,
+      "close_date": "2026-05-29",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000bpjtpIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000bpjtpIAA/view",
+      "owner": "Sidney Power",
+      "name": "Edgewell - Pankaj",
+      "amount": 0.0,
+      "close_date": "2026-06-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "partner",
+      "channel_raw": "Partner Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ZagXdIAJ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ZagXdIAJ/view",
+      "owner": "Anna Sundelius",
+      "name": "Lantm\u00e4nnen Unibake SE licensing deal",
+      "amount": 22000.0,
+      "close_date": "2026-02-02",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "partner",
+      "channel_raw": "CSM Sourced",
+      "stage": "Closed Won",
+      "s1_months": [],
+      "s2_months": [
+        0
+      ],
+      "poc_months": [],
+      "wins_months": [
+        1
+      ]
+    },
+    {
+      "id": "006Tu00000cgl1RIAQ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cgl1RIAQ/view",
+      "owner": "Alex Walker",
+      "name": "SOFINA - INSIGHTS UK",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cjijnIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cjijnIAA/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & L'Oreal | Alex & Elodie",
+      "amount": 0.0,
+      "close_date": "2026-08-13",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ck8O5IAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ck8O5IAI/view",
+      "owner": "Alex Walker",
+      "name": "AB InBev US Long term INNO",
+      "amount": 0.0,
+      "close_date": "2026-08-06",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ckAXxIAM",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ckAXxIAM/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Sanity project",
+      "amount": 1000.0,
+      "close_date": "2026-05-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cnfiTIAQ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfiTIAQ/view",
+      "owner": "Alex Walker",
+      "name": "SOFINA - INNO AMERICAS",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cnfs9IAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfs9IAA/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - NPTC FOOD SINGEN",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cv1ccIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cv1ccIAA/view",
+      "owner": "Alex Walker",
+      "name": "RBI - Innovation",
+      "amount": 0.0,
+      "close_date": "2026-06-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cux7cIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cux7cIAA/view",
+      "owner": "Sidney Power",
+      "name": "LALA - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cxWNnIAM",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cxWNnIAM/view",
+      "owner": "Alex Walker",
+      "name": "PROXIMO - MARK/INNO - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000czVqbIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000czVqbIAE/view",
+      "owner": "Alex Walker",
+      "name": "BF - INSIGHTS",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8Pu1IAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d8Pu1IAE/view",
+      "owner": "Alex Walker",
+      "name": "Cheffelo - Project",
+      "amount": 0.0,
+      "close_date": "2026-04-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8dc1IAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d8dc1IAA/view",
+      "owner": "Alex Walker",
+      "name": "Starbucks - USA",
+      "amount": 0.0,
+      "close_date": "2026-07-23",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d7xXyIAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d7xXyIAI/view",
+      "owner": "Alex Walker",
+      "name": "Cmabri & Lindt",
+      "amount": 0.0,
+      "close_date": "2026-09-16",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8VTBIA2",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d8VTBIA2/view",
+      "owner": "Alex Walker",
+      "name": "AG BARR - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dWExRIAW",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dWExRIAW/view",
+      "owner": "Angus May",
+      "name": "LIDL - IT",
+      "amount": 0.0,
+      "close_date": "2026-07-16",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dW32jIAC",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dW32jIAC/view",
+      "owner": "Alex Walker",
+      "name": "TILDA - MARKETING",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dg3vuIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dg3vuIAA/view",
+      "owner": "Alex Walker",
+      "name": "BEL - STRATEGIC INS",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dggE5IAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dggE5IAI/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Ferrero",
+      "amount": 0.0,
+      "close_date": "2026-09-28",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ccSwfIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ccSwfIAE/view",
+      "owner": "Sidney Power",
+      "name": "F&S - INNO/INS - US",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dlP4XIAU",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dlP4XIAU/view",
+      "owner": "Alex Walker",
+      "name": "RED BULL - INS",
+      "amount": 0.0,
+      "close_date": "2026-09-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ck7rpIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ck7rpIAA/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Chicken of the Sea",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dpjUTIAY",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dpjUTIAY/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Smucker | Head of insights",
+      "amount": 0.0,
+      "close_date": "2026-09-11",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "Sales Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dpncvIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dpncvIAA/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & P&G | Sid & Tina",
+      "amount": 0.0,
+      "close_date": "2026-08-14",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cnfovIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
+      "owner": "Sidney Power",
+      "name": "AVON - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dmc9RIAQ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dmc9RIAQ/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Uqora (PV Subsid)",
+      "amount": 151467.42,
+      "close_date": "2026-03-06",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "partner",
+      "channel_raw": "Partner Sourced",
+      "stage": "Closed Won",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": [
+        2
+      ]
+    },
+    {
+      "id": "006Tu00000ctw0fIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000ctw0fIAA/view",
+      "owner": "Sidney Power",
+      "name": "Abbott - Market Insights",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cvM5xIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000cvM5xIAE/view",
+      "owner": "Sidney Power",
+      "name": "NATURA - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e0SlGIAU",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - MEXICO CMIA",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8dfHIAQ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d8dfHIAQ/view",
+      "owner": "Ben Harknett",
+      "name": "MATERIAL - PARTNERSHIP SCOPE",
+      "amount": 0.0,
+      "close_date": "2026-02-21",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e5L81IAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000e5L81IAE/view",
+      "owner": "Sidney Power",
+      "name": "Q4 - Winland",
+      "amount": 30542.15,
+      "close_date": "2026-11-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e91NdIAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000e91NdIAI/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - Central America",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wIX5mIAG",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wIX5mIAG/view",
+      "owner": "Sidney Power",
+      "name": "EDGEWELL - Joi/Nicole",
+      "amount": 0.0,
+      "close_date": "2026-06-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d4r7JIAQ",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d4r7JIAQ/view",
+      "owner": "Sidney Power",
+      "name": "Kroger - INS",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dNkQIIA0",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000dNkQIIA0/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Colgate | Insights lead Europe",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8HmoIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
+      "owner": "Sidney Power",
+      "name": "Abbott - US INS",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d83wjIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000d83wjIAA/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Perdue",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wXJowIAG",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wXJowIAG/view",
+      "owner": "Alex Walker",
+      "name": "Tata Re-engage",
+      "amount": 66000.0,
+      "close_date": "2026-06-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wajjaIAA",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wajjaIAA/view",
+      "owner": "Sidney Power",
+      "name": "BIMBO (RO) - INSIGHTS FEB-26",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wanK9IAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wanK9IAI/view",
+      "owner": "Sidney Power",
+      "name": "NATURA - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wu6R8IAI",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wu6R8IAI/view",
+      "owner": "John Power",
+      "name": "Carlsberg - India",
+      "amount": 0.0,
+      "close_date": "2026-09-24",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wuIAXIA2",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000wuIAXIA2/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Luxe",
+      "amount": 0.0,
+      "close_date": "2026-10-14",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000x5CY3IAM",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000x5CY3IAM/view",
+      "owner": "Alex Walker",
+      "name": "AG - INNO MAR 26",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000xBTkfIAG",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006P200000xBTkfIAG/view",
+      "owner": "Alex Walker",
+      "name": "FRIESLAND - UK - INS - MAR 26",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e0UwnIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000e0UwnIAE/view",
+      "owner": "Sidney Power",
+      "name": "TCCC AFRICA - Wellingtone re-engage Feb 26",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e6IcjIAE",
+      "sf_url": "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/006Tu00000e6IcjIAE/view",
+      "owner": "Csongor Doma",
+      "name": "test nl",
+      "amount": 33000.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Closed Won",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": [
+        1
+      ]
+    }
+  ],
+  "last_fetched": "2026-03-10T10:27:37.718992Z",
   "source": "sharepoint_actuals_sheet"
 }

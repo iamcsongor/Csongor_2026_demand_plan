@@ -2,7 +2,8 @@
 Cambri Demand Plan — GitHub Actions compute script
 ----------------------------------------------------
 Downloads the SharePoint Excel file, reads the manually-maintained
-'Actuals' summary sheet, and writes data.json to the repo root.
+'Actuals' summary sheet AND the raw 'Demand Plan Actuals' sheet,
+then writes data.json to the repo root.
 
 Run:
     pip install requests openpyxl
@@ -23,8 +24,9 @@ SHAREPOINT_URL = (
     "IQDKVYMS8mOJS5WxpQi7eylEAWeqX1IwmUSiOAj2kDGFOns"
     "?e=Zh70hH&download=1"
 )
-TARGET_YEAR = 2026
-OUTPUT_FILE = "data.json"
+TARGET_YEAR     = 2026
+OUTPUT_FILE     = "data.json"
+SF_BASE_URL     = "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/{id}/view"
 
 # ── FIXED ANNUAL TARGETS ──────────────────────────────────────────────────────
 TARGETS = {
@@ -33,7 +35,6 @@ TARGETS = {
     "partner":   {"s1": 50,   "s2": 22,  "poc": 11,   "wins": 5.5,  "value": 550000 },
 }
 
-# Maps values found in the Source and Metric columns of the Actuals sheet
 SRC_MAP = {
     "marketing":  "marketing",
     "bdr":        "bdr",
@@ -57,6 +58,15 @@ METRIC_MAP = {
     "bookings":             "value",
 }
 
+# Contribution Channel → normalized channel key
+CHANNEL_MAP = {
+    "marketing sourced": "marketing",
+    "bdr sourced":       "bdr",
+    "sales sourced":     "bdr",
+    "partner sourced":   "partner",
+    "csm sourced":       "partner",
+}
+
 
 def download_workbook():
     session = requests.Session()
@@ -66,25 +76,18 @@ def download_workbook():
     )
     resp = session.get(SHAREPOINT_URL, allow_redirects=True, timeout=60)
     resp.raise_for_status()
-    return load_workbook(BytesIO(resp.content), data_only=True, read_only=True)
+    return load_workbook(BytesIO(resp.content), data_only=True)
 
 
 def read_actuals_sheet(wb):
     """
     Read the 'Actuals' summary sheet.
-
-    Expected layout:
-        Row 1: title banner (skip)
-        Row 2: month numbers 1–12 in cols C–N (skip, used for position)
-        Row 3: headers — col A=Source, col B=Metric, cols C–N=Jan–Dec
-        Row 4+: data rows
-
-    Source column may be blank (carry-forward from previous row).
+    Row 3: headers (Source / Metric / Jan–Dec)
+    Row 4+: data rows
     """
     ws = wb["Actuals"]
     all_rows = list(ws.iter_rows(values_only=True))
 
-    # Find the header row: first row where col A or col B contains "Source" or "Metric"
     header_idx = None
     for i, row in enumerate(all_rows):
         vals = [str(v).strip().lower() if v is not None else "" for v in row[:3]]
@@ -97,7 +100,6 @@ def read_actuals_sheet(wb):
 
     data_rows = all_rows[header_idx + 1:]
 
-    # Empty result: all None (= no data yet for that month)
     actuals = {
         src: {m: [None] * 12 for m in ("s1", "s2", "poc", "wins", "value")}
         for src in ("marketing", "bdr", "partner")
@@ -106,17 +108,14 @@ def read_actuals_sheet(wb):
     current_src = None
 
     for row in data_rows:
-        # Skip fully empty rows
         if all(v is None for v in row):
             continue
 
         src_raw    = str(row[0]).strip().lower() if row[0] is not None else ""
         metric_raw = str(row[1]).strip().lower() if row[1] is not None else ""
 
-        # Carry-forward source
         if src_raw in SRC_MAP:
             current_src = SRC_MAP[src_raw]
-        # If col A is blank, keep current_src
 
         if current_src is None:
             continue
@@ -125,7 +124,6 @@ def read_actuals_sheet(wb):
         if metric is None:
             continue
 
-        # Columns C–N (index 2–13) = Jan–Dec
         for mo_idx in range(12):
             col_idx = 2 + mo_idx
             if col_idx >= len(row):
@@ -135,21 +133,156 @@ def read_actuals_sheet(wb):
                 try:
                     actuals[current_src][metric][mo_idx] = float(val)
                 except (TypeError, ValueError):
-                    pass  # leave as None
+                    pass
 
     return actuals
+
+
+def _month_from_excel_serial(v):
+    """
+    Excel MONTH() formulas stored in date-formatted cells come through as
+    datetime(1900, 1, N) where N is the month number 1–12.
+    Plain integers come through as-is.
+    """
+    if v is None:
+        return None
+    if isinstance(v, datetime.datetime):
+        # 1900-era = the day IS the month number
+        return v.day if v.year == 1900 else v.month
+    if isinstance(v, (int, float)):
+        n = int(v)
+        return n if 1 <= n <= 12 else None
+    return None
+
+
+def _fmt_date(v):
+    if v is None:
+        return None
+    if isinstance(v, datetime.datetime):
+        return v.strftime("%Y-%m-%d")
+    return str(v)
+
+
+def read_deals(wb):
+    """
+    Read individual opportunity records from 'Demand Plan Actuals'.
+    Returns a list of deal dicts, each tagged with which metrics/months
+    (0-indexed) they contribute to in TARGET_YEAR.
+    """
+    ws = wb["Demand Plan Actuals"]
+
+    # Find the header row (it contains 'Opportunity Owner')
+    headers = None
+    header_row_idx = None
+    for row_idx, row in enumerate(ws.iter_rows(values_only=True), 1):
+        if row and row[0] == "Opportunity Owner":
+            headers = list(row)
+            header_row_idx = row_idx
+            break
+
+    if headers is None:
+        print("[compute.py] Warning: could not find deal header row — skipping deals")
+        return []
+
+    H = {h: i for i, h in enumerate(headers) if h is not None}
+
+    def get(row, col_name):
+        idx = H.get(col_name)
+        return row[idx] if idx is not None and idx < len(row) else None
+
+    deals = []
+
+    for row in ws.iter_rows(min_row=header_row_idx + 1, values_only=True):
+        if not row or all(v is None for v in row):
+            continue
+
+        opp_id   = get(row, "Opp Casesafe ID 18")
+        opp_name = get(row, "Opportunity Name")
+        if not opp_id or not opp_name:
+            continue
+
+        owner      = get(row, "Opportunity Owner")
+        amount     = get(row, "Amount (converted)")
+        close_date = get(row, "Close Date")
+        opp_type   = get(row, "Type")
+        rec_type   = get(row, "Opportunity Record Type")
+        stage      = get(row, "Stage")
+        channel_raw = get(row, "Contribution Channel")
+        channel    = CHANNEL_MAP.get(str(channel_raw).strip().lower() if channel_raw else "", None)
+
+        created_year = get(row, "Created YEAR")
+        created_m_raw = get(row, "Created Month2")
+        s2_year      = get(row, "S2 Year")
+        s2_m_raw     = get(row, "S2 Month")
+        close_year   = get(row, "Close Date YEAR")
+        close_month  = get(row, "Close Date Month")
+        fsr_year     = get(row, "FSR YEAR")
+        fsr_m_raw    = get(row, "FSR MONTH")
+
+        created_month = _month_from_excel_serial(created_m_raw)
+        s2_month      = _month_from_excel_serial(s2_m_raw)
+        fsr_month     = _month_from_excel_serial(fsr_m_raw)
+
+        # Which metrics/months does this deal contribute to in TARGET_YEAR?
+        s1_months   = []
+        s2_months   = []
+        poc_months  = []
+        wins_months = []
+
+        if created_year == TARGET_YEAR and created_month and 1 <= created_month <= 12:
+            s1_months.append(created_month - 1)  # 0-indexed
+
+        if s2_year == TARGET_YEAR and s2_month and 1 <= s2_month <= 12:
+            s2_months.append(s2_month - 1)
+
+        # POC: tracked via FSR month when available, fallback not yet defined
+        if fsr_year == TARGET_YEAR and fsr_month and 1 <= fsr_month <= 12:
+            poc_months.append(fsr_month - 1)
+
+        if (close_year == TARGET_YEAR and stage == "Closed Won"
+                and close_month and 1 <= int(close_month) <= 12):
+            wins_months.append(int(close_month) - 1)
+
+        # Only include deals relevant to TARGET_YEAR
+        if not any([s1_months, s2_months, poc_months, wins_months]):
+            continue
+
+        deals.append({
+            "id":          opp_id,
+            "sf_url":      SF_BASE_URL.format(id=opp_id),
+            "owner":       owner,
+            "name":        opp_name,
+            "amount":      float(amount) if amount is not None else None,
+            "close_date":  _fmt_date(close_date),
+            "type":        opp_type,
+            "record_type": rec_type,
+            "channel":     channel,
+            "channel_raw": channel_raw,
+            "stage":       stage,
+            "s1_months":   s1_months,
+            "s2_months":   s2_months,
+            "poc_months":  poc_months,
+            "wins_months": wins_months,
+        })
+
+    return deals
 
 
 def main():
     print("[compute.py] Downloading SharePoint file…")
     wb = download_workbook()
+
     print("[compute.py] Reading Actuals sheet…")
     actuals = read_actuals_sheet(wb)
+
+    print("[compute.py] Reading deal-level data…")
+    deals = read_deals(wb)
     wb.close()
 
     payload = {
         "targets":      TARGETS,
         "actuals":      actuals,
+        "deals":        deals,
         "last_fetched": datetime.datetime.utcnow().isoformat() + "Z",
         "source":       "sharepoint_actuals_sheet",
     }
@@ -157,9 +290,8 @@ def main():
     with open(OUTPUT_FILE, "w") as f:
         json.dump(payload, f, indent=2)
 
-    print(f"[compute.py] ✓ Wrote {OUTPUT_FILE}")
+    print(f"[compute.py] ✓ Wrote {OUTPUT_FILE} ({len(deals)} deals)")
 
-    # Print summary for verification
     for src in ("marketing", "bdr", "partner"):
         s1 = actuals[src]["s1"][:3]
         print(f"  {src:12s} S1 Jan-Mar: {s1}")
@@ -167,5 +299,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

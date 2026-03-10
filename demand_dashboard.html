@@ -276,6 +276,62 @@
       .kpi      { padding:16px 14px; }
     }
 
+    /* ── DRILL-DOWN MODAL ── */
+    .drill-overlay {
+      display:none; position:fixed; inset:0; z-index:500;
+      background:rgba(0,10,9,0.75); backdrop-filter:blur(5px);
+      align-items:flex-start; justify-content:center;
+      padding:48px 20px; overflow-y:auto;
+    }
+    .drill-overlay.show { display:flex; }
+    .drill-panel {
+      background:#003532; border:1px solid rgba(16,251,207,0.14);
+      border-radius:20px; width:100%; max-width:940px;
+      display:flex; flex-direction:column; overflow:hidden;
+      box-shadow:0 24px 80px rgba(0,0,0,0.5);
+    }
+    .drill-hdr {
+      display:flex; align-items:flex-start; justify-content:space-between;
+      padding:20px 24px 16px; border-bottom:1px solid rgba(255,255,255,0.07);
+      flex-shrink:0;
+    }
+    .drill-title { font-size:16px; font-weight:700; margin-bottom:3px; }
+    .drill-sub   { font-size:12px; color:var(--t3); }
+    .drill-close {
+      background:rgba(255,255,255,0.07); border:none; border-radius:8px;
+      width:32px; height:32px; color:var(--t2); font-size:16px;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .15s; flex-shrink:0;
+    }
+    .drill-close:hover { background:rgba(255,255,255,0.14); color:var(--t1); }
+    .drill-body { overflow-y:auto; padding:0 24px 24px; flex:1; max-height:65vh; }
+    .drill-empty {
+      text-align:center; padding:40px 20px;
+      color:var(--t3); font-size:14px;
+    }
+    .drill-tbl { width:100%; border-collapse:collapse; font-size:12.5px; }
+    .drill-tbl th {
+      padding:10px 12px; text-align:left; color:var(--t3);
+      font-weight:600; text-transform:uppercase; letter-spacing:.5px;
+      font-size:10.5px; border-bottom:1px solid var(--border);
+      white-space:nowrap; position:sticky; top:0; background:#003532; z-index:1;
+    }
+    .drill-tbl td {
+      padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.035);
+      color:var(--t2); vertical-align:middle;
+    }
+    .drill-tbl tr:last-child td { border-bottom:none; }
+    .drill-tbl tr:hover td { background:rgba(255,255,255,0.025); }
+    .drill-tbl a { color:var(--accent); text-decoration:none; font-weight:600; }
+    .drill-tbl a:hover { text-decoration:underline; }
+    .drill-tbl .amt { text-align:right; font-weight:700; color:var(--t1); font-variant-numeric:tabular-nums; }
+    .drill-cell { cursor:pointer; transition:color .15s; }
+    .drill-cell:hover { color:var(--accent) !important; }
+    .ch-badge {
+      display:inline-block; padding:2px 8px; border-radius:4px;
+      font-size:10.5px; font-weight:600; white-space:nowrap;
+    }
+
     /* spinner overlay for refreshing */
     #refresh-spin {
       display: none;
@@ -412,7 +468,21 @@
   </div>
 
   <div class="foot" id="dash-foot">
-    Cambri · 2026 Demand Plan Dashboard · Targets are fixed; actuals are fetched live from Google Sheets.
+    Cambri · 2026 Demand Plan Dashboard · Targets are fixed; actuals are fetched live from SharePoint.
+  </div>
+</div>
+
+<!-- DRILL-DOWN MODAL -->
+<div class="drill-overlay" id="drill-modal" onclick="if(event.target===this)closeDrilldown()">
+  <div class="drill-panel">
+    <div class="drill-hdr">
+      <div>
+        <div class="drill-title" id="drill-title">Deals</div>
+        <div class="drill-sub" id="drill-sub">0 deals</div>
+      </div>
+      <button class="drill-close" onclick="closeDrilldown()">✕</button>
+    </div>
+    <div class="drill-body" id="drill-body"></div>
   </div>
 </div>
 
@@ -491,10 +561,11 @@ async function fetchSheetData() {
   const payload = await resp.json();
   if (payload.error) throw new Error(payload.error);
 
-  // data.json contains { targets, actuals, last_fetched }
+  // data.json contains { targets, actuals, deals, last_fetched }
   // actuals[src][metric] = [jan…dec] where null = no data, 0 = real zero
   // Overwrite TARGETS too (in case values were updated)
   Object.assign(TARGETS, payload.targets);
+  if (Array.isArray(payload.deals)) DEALS = payload.deals;
   return payload.actuals;
 }
 
@@ -585,6 +656,115 @@ let curMetric = 's1';
 let tblMetric = 's1';
 let mainChart = null;
 let arrChart  = null;
+let DEALS     = [];
+
+const SRC_LABELS  = { all:'All Sources', marketing:'Marketing', bdr:'BDR', partner:'Partner' };
+const CH_COLORS   = { marketing:'#10FBCF', bdr:'#4FDBFB', partner:'#A78BFA' };
+const METRIC_FIELD= { s1:'s1_months', s2:'s2_months', poc:'poc_months', wins:'wins_months', value:'wins_months' };
+
+function openDrilldown(src, metric, monthIdx) {
+  const field = METRIC_FIELD[metric];
+  if (!field) return;
+
+  let filtered = DEALS.filter(d => Array.isArray(d[field]) && d[field].includes(monthIdx));
+  if (src && src !== 'all') filtered = filtered.filter(d => d.channel === src);
+
+  // Sort: value metric by amount desc, others by close_date asc
+  if (metric === 'value') {
+    filtered.sort((a,b) => (b.amount||0) - (a.amount||0));
+  } else {
+    filtered.sort((a,b) => (a.close_date||'').localeCompare(b.close_date||''));
+  }
+
+  const m = METRICS.find(x => x.key === metric) || {};
+  document.getElementById('drill-title').textContent =
+    (SRC_LABELS[src]||'All Sources') + ' · ' + (m.short||metric) + ' · ' + (MONTHS[monthIdx]||'');
+  document.getElementById('drill-sub').textContent =
+    filtered.length + ' deal' + (filtered.length !== 1 ? 's' : '');
+
+  const body = document.getElementById('drill-body');
+  if (filtered.length === 0) {
+    body.innerHTML = '<div class="drill-empty">No individual deal records found for this data point.<br><span style="font-size:11px;opacity:.55">This metric may be a manually entered aggregate.</span></div>';
+  } else {
+    const fmtAmt = v => v == null ? '—' : '€' + Math.round(v).toLocaleString('de-DE');
+    body.innerHTML = `
+      <table class="drill-tbl">
+        <thead><tr>
+          <th>Owner</th><th>Opportunity</th><th>Close Date</th>
+          <th style="text-align:right">Amount</th>
+          <th>Type</th><th>Record Type</th><th>Channel</th>
+        </tr></thead>
+        <tbody>
+          ${filtered.map(deal => {
+            const ch    = deal.channel || '';
+            const color = CH_COLORS[ch] || 'rgba(255,255,255,0.3)';
+            return `<tr>
+              <td style="white-space:nowrap">${deal.owner||'—'}</td>
+              <td><a href="${deal.sf_url}" target="_blank" rel="noopener">${deal.name||'—'}</a></td>
+              <td style="white-space:nowrap">${deal.close_date||'—'}</td>
+              <td class="amt">${fmtAmt(deal.amount)}</td>
+              <td>${deal.type||'—'}</td>
+              <td>${deal.record_type||'—'}</td>
+              <td><span class="ch-badge" style="background:${color}22;color:${color}">${deal.channel_raw||ch||'—'}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`;
+  }
+  document.getElementById('drill-modal').classList.add('show');
+}
+
+function openDrilldownSrc(src, metric, upToMonth) {
+  // Show all deals for a source across months 0..upToMonth
+  const field = METRIC_FIELD[metric];
+  if (!field) return;
+  const months = Array.from({length: upToMonth + 1}, (_, i) => i);
+  let filtered = DEALS.filter(d =>
+    d.channel === src && Array.isArray(d[field]) && d[field].some(m => months.includes(m))
+  );
+  if (metric === 'value') filtered.sort((a,b) => (b.amount||0) - (a.amount||0));
+  else filtered.sort((a,b) => (a.close_date||'').localeCompare(b.close_date||''));
+
+  const metricLabel = (METRICS.find(x => x.key === metric) || {}).short || metric;
+  document.getElementById('drill-title').textContent =
+    SRC_LABELS[src] + ' · ' + metricLabel + ' · YTD';
+  document.getElementById('drill-sub').textContent =
+    filtered.length + ' deal' + (filtered.length !== 1 ? 's' : '');
+
+  const body = document.getElementById('drill-body');
+  if (filtered.length === 0) {
+    body.innerHTML = '<div class="drill-empty">No individual deal records found for this data point.<br><span style="font-size:11px;opacity:.55">This metric may be a manually entered aggregate.</span></div>';
+  } else {
+    const fmtAmt = v => v == null ? '—' : '€' + Math.round(v).toLocaleString('de-DE');
+    const color  = CH_COLORS[src] || 'rgba(255,255,255,0.3)';
+    body.innerHTML = `
+      <table class="drill-tbl">
+        <thead><tr>
+          <th>Owner</th><th>Opportunity</th><th>Close Date</th>
+          <th style="text-align:right">Amount</th>
+          <th>Type</th><th>Record Type</th><th>Channel</th>
+        </tr></thead>
+        <tbody>
+          ${filtered.map(deal => `<tr>
+            <td style="white-space:nowrap">${deal.owner||'—'}</td>
+            <td><a href="${deal.sf_url}" target="_blank" rel="noopener">${deal.name||'—'}</a></td>
+            <td style="white-space:nowrap">${deal.close_date||'—'}</td>
+            <td class="amt">${fmtAmt(deal.amount)}</td>
+            <td>${deal.type||'—'}</td>
+            <td>${deal.record_type||'—'}</td>
+            <td><span class="ch-badge" style="background:${color}22;color:${color}">${deal.channel_raw||src||'—'}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+  document.getElementById('drill-modal').classList.add('show');
+}
+
+function closeDrilldown() {
+  document.getElementById('drill-modal').classList.remove('show');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrilldown(); });
 
 /* ═══════════════════════════════════════════════════════════
    DATA HELPERS
@@ -687,6 +867,13 @@ function renderChart() {
     options:{
       responsive:true, maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
+      onClick: (evt, activeElements) => {
+        if (!activeElements.length) return;
+        openDrilldown(curSrc, curMetric, activeElements[0].index);
+      },
+      onHover: (evt, activeElements) => {
+        evt.native.target.style.cursor = activeElements.length ? 'pointer' : 'default';
+      },
       plugins:{
         legend:{display:false},
         tooltip:{
@@ -694,7 +881,10 @@ function renderChart() {
           borderColor:'rgba(16,251,207,0.18)', borderWidth:1,
           titleColor:'#fff', bodyColor:'rgba(255,255,255,0.65)',
           padding:12, cornerRadius:10,
-          callbacks:{ label:ctx=>{const v=ctx.raw; return v===null?ctx.dataset.label+': —':ctx.dataset.label+': '+m.fmt(v);} }
+          callbacks:{
+            label:ctx=>{const v=ctx.raw; return v===null?ctx.dataset.label+': —':ctx.dataset.label+': '+m.fmt(v);},
+            afterBody: ()=>['', '↗ Click to see deals'],
+          }
         }
       },
       scales:{
@@ -726,7 +916,7 @@ function renderMix() {
         const p   = pct(ytA,ytT);
         const sh  = totAct>0 ? Math.round(ytA/totAct*100) : 0;
         return `
-          <div>
+          <div style="cursor:pointer" title="Click to see all ${SNAME[s]} deals YTD" onclick="openDrilldownSrc('${s}','${curMetric}',${CM})">
             <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
               <span class="src-name"><span class="src-dot" style="background:${SCOL[s]}"></span><strong style="color:var(--t1);font-size:13px">${SNAME[s]}</strong></span>
               <span style="font-weight:700;color:var(--t1);font-size:15px">${fmtM(curMetric,ytA)}</span>
@@ -885,12 +1075,12 @@ function renderTable() {
       </tr>
       <tr>
         <td>Actual</td>
-        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; return (v===null||v===0)?`<td class="c-fut">—</td>`:`<td class="c-act">${fmtM(tblMetric,v)}</td>`; }).join('')}
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; return (v===null||v===0)?`<td class="c-fut">—</td>`:`<td class="c-act drill-cell" title="Click to see deals" onclick="openDrilldown('${curSrc}','${tblMetric}',${i})">${fmtM(tblMetric,v)}</td>`; }).join('')}
         <td class="c-act">${fmtM(tblMetric,d.acts.reduce((s,v)=>s+(v||0),0))}</td>
       </tr>
       <tr>
         <td>Attainment</td>
-        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null||v===0) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)}">${p}%</td>`; }).join('')}
+        ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null||v===0) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)} drill-cell" title="Click to see deals" onclick="openDrilldown('${curSrc}','${tblMetric}',${i})">${p}%</td>`; }).join('')}
         <td>${(()=>{ const a=d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0),t=d.mo*(CM+1),p=pct(a,t); return `<span class="${cellClass(p)}">${p}%</span>`; })()}</td>
       </tr>
       <tr class="row-divider">
