@@ -910,7 +910,7 @@ function renderMix() {
   const annTot = SRCS.reduce((a,s)=>a+TARGETS[s][curMetric], 0);
 
   body.innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:18px">
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px">
       ${SRCS.map(s=>{
         const ytA = ACTUALS[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
         const ytT = (TARGETS[s][curMetric]/12)*(CM+1);
@@ -918,28 +918,29 @@ function renderMix() {
         const sh  = totAct>0 ? Math.round(ytA/totAct*100) : 0;
         return `
           <div style="cursor:pointer" title="Click to see all ${SNAME[s]} deals YTD" onclick="openDrilldownSrc('${s}','${curMetric}',${CM})">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
               <span class="src-name"><span class="src-dot" style="background:${SCOL[s]}"></span><strong style="color:var(--t1);font-size:13px">${SNAME[s]}</strong></span>
-              <span style="font-weight:700;color:var(--t1);font-size:15px">${fmtM(curMetric,ytA)}</span>
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <span style="font-size:11px;color:var(--t3)">${sh}% of total</span>
+                <span class="kpi-pct ${pctClass(p)}" style="font-size:11px">${p}% of target</span>
+                <span style="font-weight:700;color:var(--t1);font-size:15px">${fmtM(curMetric,ytA)}</span>
+              </div>
             </div>
-            <div class="bar-track" style="height:5px">
+            <div class="bar-track" style="height:5px;margin-bottom:0">
               <div class="bar-fill" style="width:${Math.min(p,100)}%;background:${SCOL[s]}"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:5px">
-              <span>${sh}% of total</span><span class="kpi-pct ${pctClass(p)}">${p}% of target</span>
             </div>
           </div>`;
       }).join('')}
     </div>
     <div style="height:1px;background:var(--border);margin-bottom:14px"></div>
     <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:10px">Annual Target Mix</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div style="display:flex;flex-direction:column;gap:10px">
       ${SRCS.map(s=>{
         const sh=Math.round(TARGETS[s][curMetric]/annTot*100);
         return `<div class="ann-row">
           <span class="src-dot" style="background:${SCOL[s]}"></span>
-          <span style="color:var(--t2);font-size:12px;min-width:60px">${SNAME[s]}</span>
-          <div class="ann-bar"><div class="ann-fill" style="width:${sh}%;background:${SCOL[s]}"></div></div>
+          <span style="color:var(--t2);font-size:12px;min-width:72px">${SNAME[s]}</span>
+          <div class="ann-bar" style="flex:1"><div class="ann-fill" style="width:${sh}%;background:${SCOL[s]}"></div></div>
           <span class="ann-pct">${sh}%</span>
         </div>`;
       }).join('')}
