@@ -81,18 +81,18 @@
         0.0
       ],
       "value": [
-        150000.0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ]
     },
     "bdr": {
@@ -153,18 +153,18 @@
         0.0
       ],
       "value": [
-        75000.0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ]
     },
     "partner": {
@@ -226,17 +226,17 @@
       ],
       "value": [
         0.0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        55000.0,
+        151467.42,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ]
     }
   },
@@ -1385,6 +1385,6 @@
       ]
     }
   ],
-  "last_fetched": "2026-03-10T10:28:15.520365Z",
+  "last_fetched": "2026-03-10T10:35:46.972414Z",
   "source": "sharepoint_actuals_sheet"
 }
