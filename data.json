@@ -170,7 +170,7 @@
     "partner": {
       "s1": [
         1.0,
-        6.0,
+        5.0,
         0.0,
         0.0,
         0.0,
@@ -212,8 +212,8 @@
       ],
       "wins": [
         0.0,
-        0.0,
-        0.0,
+        1.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -226,7 +226,7 @@
       ],
       "value": [
         0.0,
-        55000.0,
+        22000.0,
         151467.42,
         0.0,
         0.0,
@@ -1362,29 +1362,8 @@
       "s2_months": [],
       "poc_months": [],
       "wins_months": []
-    },
-    {
-      "id": "006Tu00000e6IcjIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e6IcjIAE/view",
-      "owner": "Csongor Doma",
-      "name": "test nl",
-      "amount": 33000.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": null,
-      "channel_raw": null,
-      "stage": "Closed Won",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": [
-        1
-      ]
     }
   ],
-  "last_fetched": "2026-03-10T10:36:23.243145Z",
+  "last_fetched": "2026-03-10T11:03:06.563205Z",
   "source": "sharepoint_actuals_sheet"
 }
