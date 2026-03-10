@@ -81,41 +81,71 @@ def download_workbook():
 
 def read_arr_sheet(wb):
     """
-    Read the 'ARR' tab.
-    Row 1: title (skip)
-    Row 2: headers — Month | Monthly Target (€) | Monthly Actual (€)
-    Rows 3–14: Jan–Dec data
-    Returns: { "monthly_target": [float|None]*12, "monthly_actual": [float|None]*12 }
-    Falls back to empty lists if sheet is missing.
+    Read the 'ARR' tab.  Finds columns by header name (row 2) so the sheet
+    column order doesn't matter.
+    Returns: {
+        "monthly_target":  [float|None]*12,
+        "monthly_actual":  [float|None]*12,
+        "reforecast":      [float|None]*12,   # cumulative Re-forecast column
+    }
     """
+    empty = {
+        "monthly_target": [None]*12,
+        "monthly_actual": [None]*12,
+        "reforecast":     [None]*12,
+    }
     if "ARR" not in wb.sheetnames:
-        return {"monthly_target": [None]*12, "monthly_actual": [None]*12}
+        return empty
 
     ws = wb["ARR"]
-    rows = list(ws.iter_rows(min_row=3, max_row=14, values_only=True))
 
-    monthly_target = []
-    monthly_actual = []
+    def _f(v):
+        if v is None:
+            return None
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            return None
 
-    for row in rows:
-        def _f(v):
-            if v is None:
-                return None
-            try:
-                return float(v)
-            except (TypeError, ValueError):
-                return None
+    # --- find header row (row 2) and map column names → 0-based index ---
+    header_row = list(ws.iter_rows(min_row=2, max_row=2, values_only=True))[0]
+    col_idx = {}
+    for i, h in enumerate(header_row):
+        if h is None:
+            continue
+        key = str(h).strip().lower()
+        col_idx[key] = i
 
-        monthly_target.append(_f(row[1]) if len(row) > 1 else None)
-        monthly_actual.append(_f(row[2]) if len(row) > 2 else None)
+    def _col(name):
+        """Return 0-based index for a header, searching by substring."""
+        for k, v in col_idx.items():
+            if name in k:
+                return v
+        return None
 
-    # Pad to 12 if sheet has fewer rows
-    while len(monthly_target) < 12:
-        monthly_target.append(None)
-    while len(monthly_actual) < 12:
-        monthly_actual.append(None)
+    i_target     = _col("target")
+    i_actual     = _col("actual")
+    i_reforecast = _col("re-forecast") or _col("reforecast") or _col("re forecast")
 
-    return {"monthly_target": monthly_target, "monthly_actual": monthly_actual}
+    monthly_target  = []
+    monthly_actual  = []
+    reforecast      = []
+
+    for row in ws.iter_rows(min_row=3, max_row=14, values_only=True):
+        monthly_target.append( _f(row[i_target])     if i_target     is not None and i_target     < len(row) else None)
+        monthly_actual.append( _f(row[i_actual])     if i_actual     is not None and i_actual     < len(row) else None)
+        reforecast.append(     _f(row[i_reforecast]) if i_reforecast is not None and i_reforecast < len(row) else None)
+
+    # Pad to 12
+    for lst in (monthly_target, monthly_actual, reforecast):
+        while len(lst) < 12:
+            lst.append(None)
+
+    return {
+        "monthly_target": monthly_target,
+        "monthly_actual": monthly_actual,
+        "reforecast":     reforecast,
+    }
 
 
 def read_actuals_sheet(wb):

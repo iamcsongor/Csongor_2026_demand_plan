@@ -500,6 +500,7 @@ const TARGETS = {
 let ARR_DATA = {
   monthly_target: Array(12).fill(null),
   monthly_actual: Array(12).fill(null),
+  reforecast:     Array(12).fill(null),
 };
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -566,6 +567,7 @@ async function fetchSheetData() {
   if (payload.arr) {
     ARR_DATA.monthly_target = payload.arr.monthly_target || Array(12).fill(null);
     ARR_DATA.monthly_actual = payload.arr.monthly_actual || Array(12).fill(null);
+    ARR_DATA.reforecast     = payload.arr.reforecast     || Array(12).fill(null);
   }
   return payload.actuals;
 }
@@ -979,18 +981,26 @@ function renderARR() {
   cumActual.forEach((v, i) => { if (v !== null) lastIdx = i; });
   const lastARR = lastIdx >= 0 ? cumActual[lastIdx] : 0;
 
-  // Auto-compute reforecast: avg monthly rate from actuals × months remaining
-  const nActual = lastIdx + 1;
-  const avgMonthly = nActual > 0 ? lastARR / nActual : 0;
-  const projectedYE = lastARR + avgMonthly * (12 - nActual);
-
-  // Reforecast line: starts from last actual, projects forward at avg rate
+  // Reforecast from sheet (column F — cumulative Re-forecast)
+  // Start the line at the last actual point, null before it
+  const reforecastRaw = ARR_DATA.reforecast;
   const reforecastLine = MONTHS.map((_, i) => {
-    if (i < lastIdx)  return null;
-    if (i === lastIdx) return lastARR;
-    if (lastIdx < 0)  return null;
-    return lastARR + avgMonthly * (i - lastIdx);
+    if (lastIdx < 0)   return null;
+    if (i < lastIdx)   return null;          // hidden before actual ends
+    if (i === lastIdx) return lastARR;       // anchor to last actual value
+    return reforecastRaw[i] ?? null;         // sheet value for future months
   });
+
+  // Year-end projection = last non-null reforecast value (or last actual)
+  let projectedYE = lastARR;
+  for (let i = 11; i >= 0; i--) {
+    if (reforecastRaw[i] !== null && reforecastRaw[i] !== undefined) {
+      projectedYE = reforecastRaw[i];
+      break;
+    }
+  }
+  const nActual  = lastIdx + 1;
+  const avgMonthly = nActual > 0 ? lastARR / nActual : 0;
 
   // Attainment vs year-end target
   const pctTgt   = yearTarget > 0 ? Math.round(lastARR / yearTarget * 100) : 0;
