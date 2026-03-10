@@ -256,18 +256,18 @@
       null
     ],
     "monthly_actual": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0,
+      300000.0
     ]
   },
   "deals": [
@@ -1394,6 +1394,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-10T11:30:23.064686Z",
+  "last_fetched": "2026-03-10T12:53:47.333158Z",
   "source": "sharepoint_actuals_sheet"
 }
