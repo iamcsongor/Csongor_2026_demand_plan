@@ -26,7 +26,7 @@ SHAREPOINT_URL = (
 )
 TARGET_YEAR     = 2026
 OUTPUT_FILE     = "data.json"
-SF_BASE_URL     = "https://wiseandsally.lightning.force.com/lightning/r/Opportunity/{id}/view"
+SF_BASE_URL     = "https://cambri.lightning.force.com/lightning/r/Opportunity/{id}/view"
 
 # ── FIXED ANNUAL TARGETS ──────────────────────────────────────────────────────
 TARGETS = {
