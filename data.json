@@ -240,6 +240,36 @@
       ]
     }
   },
+  "arr": {
+    "monthly_target": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "monthly_actual": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
   "deals": [
     {
       "id": "006Tu00000Mdv4zIAB",
@@ -1364,6 +1394,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-10T11:03:06.563205Z",
+  "last_fetched": "2026-03-10T11:30:23.064686Z",
   "source": "sharepoint_actuals_sheet"
 }
