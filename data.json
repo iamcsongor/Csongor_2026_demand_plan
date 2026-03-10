@@ -242,20 +242,6 @@
   },
   "arr": {
     "monthly_target": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    "monthly_actual": [
       300000.0,
       300000.0,
       300000.0,
@@ -268,9 +254,56 @@
       300000.0,
       300000.0,
       300000.0
+    ],
+    "monthly_actual": [
+      0.0,
+      22000.0,
+      151467.42,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "reforecast": [
+      0.0,
+      22000.0,
+      173467.42,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997,
+      190364.99999999997
     ]
   },
   "deals": [
+    {
+      "id": "006Tu00000OhoOjIAJ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000OhoOjIAJ/view",
+      "owner": "Alex Walker",
+      "name": "KCC - AUS",
+      "amount": 0.0,
+      "close_date": "2026-06-24",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        3
+      ],
+      "wins_months": []
+    },
     {
       "id": "006Tu00000Mdv4zIAB",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000Mdv4zIAB/view",
@@ -291,6 +324,82 @@
       ]
     },
     {
+      "id": "006Tu00000QDECfIAP",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000QDECfIAP/view",
+      "owner": "Sidney Power",
+      "name": "TCCC - INS CAP - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2025-12-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Scope",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        3
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000S3RI6IAN",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000S3RI6IAN/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Oatly | Alex & Priscilla",
+      "amount": 33000.0,
+      "close_date": "2026-06-24",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        3
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000UhZ7hIAF",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000UhZ7hIAF/view",
+      "owner": "Sidney Power",
+      "name": "MOLSON COORS - INSIGHTS - EMEA",
+      "amount": 100000.0,
+      "close_date": "2026-05-29",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Scope",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        0
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000RLyT3IAL",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000RLyT3IAL/view",
+      "owner": "Alex Walker",
+      "name": "THE FINI - INSIGHTS - EMEA",
+      "amount": 40000.0,
+      "close_date": "2026-01-21",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000UwvO1IAJ",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000UwvO1IAJ/view",
       "owner": "Alex Walker",
@@ -306,7 +415,66 @@
       "s2_months": [
         1
       ],
-      "poc_months": [],
+      "poc_months": [
+        0
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000Te7RvIAJ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000Te7RvIAJ/view",
+      "owner": "Sidney Power",
+      "name": "CLOROX Q2 RFP",
+      "amount": 150000.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000WBpXpIAL",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000WBpXpIAL/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Welch's | Sid & Heidi",
+      "amount": 100000.0,
+      "close_date": "2026-06-26",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Scope",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        4
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000WPJg9IAH",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000WPJg9IAH/view",
+      "owner": "Alex Walker",
+      "name": "Hasbro - TMRE",
+      "amount": 100000.0,
+      "close_date": "2026-05-27",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
       "wins_months": []
     },
     {
@@ -325,7 +493,28 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000XDLhxIAH",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000XDLhxIAH/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Del Monte | Sid & Jennifer",
+      "amount": 0.0,
+      "close_date": "2026-06-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Scope",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        3
+      ],
       "wins_months": []
     },
     {
@@ -345,6 +534,25 @@
         0
       ],
       "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000Y9h5OIAR",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000Y9h5OIAR/view",
+      "owner": "Alex Walker",
+      "name": "CARLSBERG - INNO",
+      "amount": 0.0,
+      "close_date": "2026-05-22",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Educate",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        2
+      ],
       "wins_months": []
     },
     {
@@ -382,7 +590,9 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
       "wins_months": []
     },
     {
@@ -420,7 +630,28 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000Ys5FFIAZ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000Ys5FFIAZ/view",
+      "owner": "Sidney Power",
+      "name": "St Dalfour - INNO",
+      "amount": 0.0,
+      "close_date": "2026-06-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Scope",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        3
+      ],
       "wins_months": []
     },
     {
@@ -439,7 +670,28 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        0
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000YVyQvIAL",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000YVyQvIAL/view",
+      "owner": "Alex Walker",
+      "name": "Cambri & Lotus | Alex & Amrutha",
+      "amount": 0.0,
+      "close_date": "2026-02-26",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        0
+      ],
       "wins_months": []
     },
     {
@@ -458,7 +710,9 @@
       "s2_months": [
         1
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
       "wins_months": []
     },
     {
@@ -477,7 +731,47 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        1
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000UhU82IAF",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000UhU82IAF/view",
+      "owner": "Sidney Power",
+      "name": "MCCORMICK - INSIGHTS - NA",
+      "amount": 0.0,
+      "close_date": "2026-01-06",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000TFKjHIAX",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000TFKjHIAX/view",
+      "owner": "Alex Walker",
+      "name": "Suntory - Europe Insights",
+      "amount": 0.0,
+      "close_date": "2025-12-03",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
       "wins_months": []
     },
     {
@@ -498,7 +792,9 @@
       "s2_months": [
         0
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
       "wins_months": []
     },
     {
@@ -865,7 +1161,9 @@
       "s2_months": [
         1
       ],
-      "poc_months": [],
+      "poc_months": [
+        2
+      ],
       "wins_months": []
     },
     {
@@ -1253,7 +1551,9 @@
         1
       ],
       "s2_months": [],
-      "poc_months": [],
+      "poc_months": [
+        1
+      ],
       "wins_months": []
     },
     {
@@ -1394,6 +1694,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-10T15:00:14.105285Z",
+  "last_fetched": "2026-03-10T16:53:48.225838Z",
   "source": "sharepoint_actuals_sheet"
 }
