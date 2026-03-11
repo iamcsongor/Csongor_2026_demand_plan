@@ -963,13 +963,18 @@ function renderARR() {
   // Year-end target = sum of all monthly targets (or 3.6M fallback)
   const yearTarget = monthlyTarget.reduce((s,v) => s + (v || 0), 0) || 3_600_000;
 
-  // Build cumulative actuals (skip nulls at tail)
+  // Find last month with a real (non-zero) booking — future months have 0 from sheet formulas
+  let lastNonZeroIdx = -1;
+  for (let i = 0; i < 12; i++) {
+    if (monthlyActual[i] !== null && monthlyActual[i] !== undefined && monthlyActual[i] !== 0) lastNonZeroIdx = i;
+  }
+
+  // Build cumulative actuals — null out everything after last real booking
   const cumActual = [];
   let running = 0;
   for (let i = 0; i < 12; i++) {
-    const v = monthlyActual[i];
-    if (v !== null && v !== undefined) { running += v; cumActual.push(running); }
-    else { cumActual.push(null); }
+    if (i > lastNonZeroIdx) { cumActual.push(null); }
+    else { running += (monthlyActual[i] || 0); cumActual.push(running); }
   }
 
   // Build cumulative initial forecast (target ramp)
@@ -977,9 +982,8 @@ function renderARR() {
   const cumTarget = monthlyTarget.map(v => { tgtRunning += (v || 0); return tgtRunning; });
 
   // Last known actual index
-  let lastIdx = -1;
-  cumActual.forEach((v, i) => { if (v !== null) lastIdx = i; });
-  const lastARR = lastIdx >= 0 ? cumActual[lastIdx] : 0;
+  const lastIdx = lastNonZeroIdx;
+  const lastARR  = lastIdx >= 0 ? cumActual[lastIdx] : 0;
 
   // Reforecast from sheet (column F — monthly values, needs accumulating)
   // Builds cumulative line anchored at lastARR, running forward month by month
