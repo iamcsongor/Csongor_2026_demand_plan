@@ -53,18 +53,18 @@
         0.0
       ],
       "poc": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "wins": [
         1.0,
@@ -125,18 +125,18 @@
         0.0
       ],
       "poc": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "wins": [
         0.0,
@@ -197,18 +197,18 @@
         0.0
       ],
       "poc": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "wins": [
         0.0,
@@ -1694,6 +1694,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-11T08:36:47.794874Z",
+  "last_fetched": "2026-03-11T09:38:55.262820Z",
   "source": "sharepoint_actuals_sheet"
 }
