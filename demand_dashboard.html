@@ -399,11 +399,18 @@
   <!-- FILTER -->
   <div class="filter-bar">
     <span class="filter-label">Source</span>
-    <div class="tabs">
+    <div class="tabs" id="source-tabs">
       <button class="tab active" onclick="setSource('all')">All Sources</button>
       <button class="tab" onclick="setSource('marketing')">Marketing</button>
       <button class="tab" onclick="setSource('bdr')">BDR</button>
       <button class="tab" onclick="setSource('partner')">Partner</button>
+    </div>
+    <span class="filter-label" style="margin-left:18px">Rep</span>
+    <div class="tabs" id="bdr-tabs">
+      <button class="tab active" onclick="setBDR(null)">All</button>
+      <button class="tab" onclick="setBDR('Angus May')">Angus</button>
+      <button class="tab" onclick="setBDR('John Power')">John</button>
+      <button class="tab" onclick="setBDR('Jack Trailor-Thompson')">Jack</button>
     </div>
   </div>
 
@@ -655,6 +662,9 @@ function setStatus(type, msg) {
    STATE
 ═══════════════════════════════════════════════════════════ */
 let curSrc    = 'all';
+let curBDR    = null;   // null = all reps
+
+const BDR_REPS = ['Angus May', 'John Power', 'Jack Trailor-Thompson'];
 let curMetric = 's1';
 let tblMetric = 's1';
 let mainChart = null;
@@ -671,6 +681,7 @@ function openDrilldown(src, metric, monthIdx) {
 
   let filtered = DEALS.filter(d => Array.isArray(d[field]) && d[field].includes(monthIdx));
   if (src && src !== 'all') filtered = filtered.filter(d => d.channel === src);
+  if (curBDR) filtered = filtered.filter(d => d.created_by === curBDR);
 
   // Sort: value metric by amount desc, others by close_date asc
   if (metric === 'value') {
@@ -681,6 +692,7 @@ function openDrilldown(src, metric, monthIdx) {
 
   const m = METRICS.find(x => x.key === metric) || {};
   document.getElementById('drill-title').textContent =
+    (curBDR ? curBDR.split(' ')[0]+' · ' : '') +
     (SRC_LABELS[src]||'All Sources') + ' · ' + (m.short||metric) + ' · ' + (MONTHS[monthIdx]||'');
   document.getElementById('drill-sub').textContent =
     filtered.length + ' deal' + (filtered.length !== 1 ? 's' : '');
@@ -725,11 +737,13 @@ function openDrilldownSrc(src, metric, upToMonth) {
   let filtered = DEALS.filter(d =>
     d.channel === src && Array.isArray(d[field]) && d[field].some(m => months.includes(m))
   );
+  if (curBDR) filtered = filtered.filter(d => d.created_by === curBDR);
   if (metric === 'value') filtered.sort((a,b) => (b.amount||0) - (a.amount||0));
   else filtered.sort((a,b) => (a.close_date||'').localeCompare(b.close_date||''));
 
   const metricLabel = (METRICS.find(x => x.key === metric) || {}).short || metric;
   document.getElementById('drill-title').textContent =
+    (curBDR ? curBDR.split(' ')[0]+' · ' : '') +
     SRC_LABELS[src] + ' · ' + metricLabel + ' · YTD';
   document.getElementById('drill-sub').textContent =
     filtered.length + ' deal' + (filtered.length !== 1 ? 's' : '');
@@ -772,16 +786,46 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrilldo
 /* ═══════════════════════════════════════════════════════════
    DATA HELPERS
 ═══════════════════════════════════════════════════════════ */
+/* Derive per-source actuals from deal data filtered by creator */
+function getBDRActuals(bdrName) {
+  const result = {};
+  SRCS.forEach(s => {
+    result[s] = {
+      s1: Array(12).fill(null), s2: Array(12).fill(null),
+      poc: Array(12).fill(null), wins: Array(12).fill(null), value: Array(12).fill(null),
+    };
+  });
+  DEALS.filter(d => d.created_by === bdrName).forEach(deal => {
+    const src = deal.channel;
+    if (!result[src]) return;
+    const inc = (arr, months) => months.forEach(m => { if (m>=0&&m<12) arr[m] = (arr[m]||0) + 1; });
+    inc(result[src].s1,   deal.s1_months);
+    inc(result[src].s2,   deal.s2_months);
+    inc(result[src].poc,  deal.poc_months);
+    inc(result[src].wins, deal.wins_months);
+    deal.wins_months.forEach(m => {
+      if (m>=0&&m<12) result[src].value[m] = (result[src].value[m]||0) + (deal.amount||0);
+    });
+  });
+  return result;
+}
+
 function getD(key) {
+  // When a BDR rep is selected, derive actuals from deals (created_by) and use 1/3 of targets
+  const acts_src  = curBDR ? getBDRActuals(curBDR) : ACTUALS;
+  const tgtFactor = curBDR ? (1 / BDR_REPS.length) : 1;
+
   const tgt = curSrc === 'all'
-    ? SRCS.reduce((a,s) => a + TARGETS[s][key], 0)
-    : TARGETS[curSrc][key];
+    ? SRCS.reduce((a,s) => a + TARGETS[s][key] * tgtFactor, 0)
+    : TARGETS[curSrc][key] * tgtFactor;
+
   const acts = curSrc === 'all'
     ? MONTHS.map((_,i) => {
-        const vs = SRCS.map(s => ACTUALS[s][key][i]);
+        const vs = SRCS.map(s => acts_src[s][key][i]);
         return vs.every(v=>v===null) ? null : vs.reduce((a,v)=>a+(v||0),0);
       })
-    : [...ACTUALS[curSrc][key]];
+    : [...acts_src[curSrc][key]];
+
   return { yr: tgt, mo: tgt/12, acts };
 }
 
@@ -911,23 +955,26 @@ function renderChart() {
    SOURCE MIX
 ═══════════════════════════════════════════════════════════ */
 function renderMix() {
-  const CM     = getCurrentMonth();
-  const m      = METRICS.find(x=>x.key===curMetric);
-  const body   = document.getElementById('mix-body');
-  document.getElementById('mix-title').textContent = 'Source Mix · '+m.short;
+  const CM        = getCurrentMonth();
+  const m         = METRICS.find(x=>x.key===curMetric);
+  const body      = document.getElementById('mix-body');
+  const acts_src  = curBDR ? getBDRActuals(curBDR) : ACTUALS;
+  const tgtFactor = curBDR ? (1 / BDR_REPS.length) : 1;
+  const repLabel  = curBDR ? ` · ${curBDR.split(' ')[0]}` : '';
+  document.getElementById('mix-title').textContent = 'Source Mix · '+m.short+repLabel;
 
-  const totAct = SRCS.reduce((sum,s)=>sum+ACTUALS[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0), 0);
+  const totAct = SRCS.reduce((sum,s)=>sum+acts_src[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0), 0);
   const annTot = SRCS.reduce((a,s)=>a+TARGETS[s][curMetric], 0);
 
   body.innerHTML = `
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px">
       ${SRCS.map(s=>{
-        const ytA = ACTUALS[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
-        const ytT = paceTarget(TARGETS[s][curMetric]);
+        const ytA = acts_src[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
+        const ytT = paceTarget(TARGETS[s][curMetric] * tgtFactor);
         const p   = pct(ytA,ytT);
         const sh  = totAct>0 ? Math.round(ytA/totAct*100) : 0;
         return `
-          <div style="cursor:pointer" title="Click to see all ${SNAME[s]} deals YTD" onclick="openDrilldownSrc('${s}','${curMetric}',${CM})">
+          <div style="cursor:pointer" title="Click to see all ${SNAME[s]} deals YTD${curBDR?' for '+curBDR:''}" onclick="openDrilldownSrc('${s}','${curMetric}',${CM})">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
               <span class="src-name"><span class="src-dot" style="background:${SCOL[s]}"></span><strong style="color:var(--t1);font-size:13px">${SNAME[s]}</strong></span>
               <span style="font-weight:700;color:var(--t1);font-size:15px">${fmtM(curMetric,ytA)}</span>
@@ -1150,8 +1197,18 @@ function renderTable() {
 ═══════════════════════════════════════════════════════════ */
 function setSource(src) {
   curSrc = src;
-  document.querySelectorAll('.tab').forEach((el,i)=>{
-    el.classList.toggle('active',['all','marketing','bdr','partner'][i]===src);
+  const srcOrder = ['all','marketing','bdr','partner'];
+  document.querySelectorAll('#source-tabs .tab').forEach((el,i) => {
+    el.classList.toggle('active', srcOrder[i] === src);
+  });
+  renderAll();
+}
+
+function setBDR(name) {
+  curBDR = name;
+  const repOrder = [null, 'Angus May', 'John Power', 'Jack Trailor-Thompson'];
+  document.querySelectorAll('#bdr-tabs .tab').forEach((el, i) => {
+    el.classList.toggle('active', repOrder[i] === name);
   });
   renderAll();
 }
