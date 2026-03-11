@@ -785,6 +785,14 @@ function getD(key) {
   return { yr: tgt, mo: tgt/12, acts };
 }
 
+/* Day-of-year pace target: annual target ÷ 365 × elapsed days */
+function dayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 86400000);
+}
+function paceTarget(annualTarget) { return annualTarget / 365 * dayOfYear(); }
+
 function pct(a, t) { return t===0 ? 0 : Math.round(a/t*100); }
 function pctClass(p)  { return p>=90?'ok':p>=70?'warn':'bad'; }
 function badgeClass(p){ return p>=90?'badge-ok':p>=70?'badge-warn':'badge-bad'; }
@@ -802,7 +810,7 @@ function renderKPIs() {
   row.innerHTML = METRICS.map(m => {
     const d   = getD(m.key);
     const ytA = d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0);
-    const ytT = d.mo*(CM+1);
+    const ytT = paceTarget(d.yr);
     const p   = pct(ytA,ytT);
     const bw  = Math.min(p,100);
     return `
@@ -813,13 +821,13 @@ function renderKPIs() {
         </div>
         <div class="kpi-meta">${m.short}</div>
         <div class="kpi-val">${fmtM(m.key,ytA)}</div>
-        <div class="kpi-sub">of <span>${fmtM(m.key,ytT)}</span> YTD target</div>
+        <div class="kpi-sub">of <span>${fmtM(m.key,ytT)}</span> pace target</div>
         <div class="bar-track">
           <div class="bar-fill ${barClass(p)}" style="width:${bw}%"></div>
         </div>
         <div class="kpi-footer">
           <span class="kpi-pct ${pctClass(p)}">${p}%</span>
-          <span style="color:var(--t3);font-size:11px">${MONTHS[CM]} attainment</span>
+          <span style="color:var(--t3);font-size:11px">day ${dayOfYear()} pace</span>
         </div>
       </div>`;
   }).join('');
@@ -915,7 +923,7 @@ function renderMix() {
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px">
       ${SRCS.map(s=>{
         const ytA = ACTUALS[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
-        const ytT = (TARGETS[s][curMetric]/12)*(CM+1);
+        const ytT = paceTarget(TARGETS[s][curMetric]);
         const p   = pct(ytA,ytT);
         const sh  = totAct>0 ? Math.round(ytA/totAct*100) : 0;
         return `
@@ -1117,7 +1125,7 @@ function renderTable() {
       <tr>
         <td>Attainment</td>
         ${MONTHS.map((_,i)=>{ const v=d.acts[i]; if(v===null||v===0) return `<td class="c-fut">—</td>`; const p=pct(v,d.mo); return `<td class="${cellClass(p)} drill-cell" title="Click to see deals" onclick="openDrilldown('${curSrc}','${tblMetric}',${i})">${p}%</td>`; }).join('')}
-        <td>${(()=>{ const a=d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0),t=d.mo*(CM+1),p=pct(a,t); return `<span class="${cellClass(p)}">${p}%</span>`; })()}</td>
+        <td>${(()=>{ const a=d.acts.slice(0,CM+1).reduce((s,v)=>s+(v||0),0),t=paceTarget(d.yr),p=pct(a,t); return `<span class="${cellClass(p)}" title="Day ${dayOfYear()} pace">${p}%</span>`; })()}</td>
       </tr>
       <tr class="row-divider">
         <td class="c-tgt">Cum. Target</td>
