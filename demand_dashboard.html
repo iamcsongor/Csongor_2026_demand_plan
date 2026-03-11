@@ -981,24 +981,22 @@ function renderARR() {
   cumActual.forEach((v, i) => { if (v !== null) lastIdx = i; });
   const lastARR = lastIdx >= 0 ? cumActual[lastIdx] : 0;
 
-  // Reforecast from sheet (column F — cumulative Re-forecast)
-  // Start the line at the last actual point, null before it
-  const reforecastRaw = ARR_DATA.reforecast;
+  // Reforecast from sheet (column F — monthly values, needs accumulating)
+  // Builds cumulative line anchored at lastARR, running forward month by month
+  const reforecastMonthly = ARR_DATA.reforecast;
   const reforecastLine = MONTHS.map((_, i) => {
     if (lastIdx < 0)   return null;
-    if (i < lastIdx)   return null;          // hidden before actual ends
-    if (i === lastIdx) return lastARR;       // anchor to last actual value
-    return reforecastRaw[i] ?? null;         // sheet value for future months
+    if (i < lastIdx)   return null;        // hidden before actual ends
+    if (i === lastIdx) return lastARR;     // anchor to last actual
+    let cum = lastARR;
+    for (let j = lastIdx + 1; j <= i; j++) {
+      cum += reforecastMonthly[j] || 0;
+    }
+    return cum;
   });
 
-  // Year-end projection = last non-null reforecast value (or last actual)
-  let projectedYE = lastARR;
-  for (let i = 11; i >= 0; i--) {
-    if (reforecastRaw[i] !== null && reforecastRaw[i] !== undefined) {
-      projectedYE = reforecastRaw[i];
-      break;
-    }
-  }
+  // Year-end projection = cumulative reforecast at December
+  const projectedYE = reforecastLine[11] ?? lastARR;
   const nActual  = lastIdx + 1;
   const avgMonthly = nActual > 0 ? lastARR / nActual : 0;
 
