@@ -827,7 +827,7 @@ function renderKPIs() {
         </div>
         <div class="kpi-footer">
           <span class="kpi-pct ${pctClass(p)}">${p}%</span>
-          <span style="color:var(--t3);font-size:11px">day ${dayOfYear()} pace</span>
+          <span style="color:var(--t3);font-size:11px">day ${dayOfYear()} pace <span title="Target ÷ 365 × days elapsed. Shows where you should be today if the annual target were spread evenly across the year — so 100% means perfectly on track right now." style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);font-size:9px;color:rgba(255,255,255,0.45);cursor:default;vertical-align:middle;margin-left:2px">i</span></span>
         </div>
       </div>`;
   }).join('');
