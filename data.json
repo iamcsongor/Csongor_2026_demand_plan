@@ -1186,25 +1186,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000ccSwfIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ccSwfIAE/view",
-      "owner": "Sidney Power",
-      "name": "F&S - INNO/INS - US",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000dlP4XIAU",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dlP4XIAU/view",
       "owner": "Alex Walker",
@@ -1224,10 +1205,10 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000ck7rpIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ck7rpIAA/view",
+      "id": "006Tu00000ccSwfIAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ccSwfIAE/view",
       "owner": "Sidney Power",
-      "name": "Cambri & Chicken of the Sea",
+      "name": "F&S - INNO/INS - US",
       "amount": 0.0,
       "close_date": "2026-02-18",
       "type": "New Logo",
@@ -1283,6 +1264,25 @@
       "wins_months": []
     },
     {
+      "id": "006Tu00000ck7rpIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ck7rpIAA/view",
+      "owner": "Sidney Power",
+      "name": "Cambri & Chicken of the Sea",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000cnfovIAA",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
       "owner": "Sidney Power",
@@ -1325,6 +1325,46 @@
       ]
     },
     {
+      "id": "006Tu00000e0SlGIAU",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
+      "owner": "Sidney Power",
+      "name": "NESTLE - MEXICO CMIA",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Educate",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e5L81IAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e5L81IAE/view",
+      "owner": "Sidney Power",
+      "name": "Q4 - Winland",
+      "amount": 30542.15,
+      "close_date": "2026-11-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000ctw0fIAA",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ctw0fIAA/view",
       "owner": "Sidney Power",
@@ -1363,27 +1403,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000e0SlGIAU",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
-      "owner": "Sidney Power",
-      "name": "NESTLE - MEXICO CMIA",
-      "amount": 0.0,
-      "close_date": "2026-07-31",
-      "type": "New OU",
-      "record_type": "Licensing Deal",
-      "channel": "marketing",
-      "channel_raw": "Marketing Sourced",
-      "stage": "Educate",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [
-        1
-      ],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000d8dfHIAQ",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8dfHIAQ/view",
       "owner": "Ben Harknett",
@@ -1397,25 +1416,6 @@
       "stage": "Closed Lost",
       "s1_months": [
         0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000e5L81IAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e5L81IAE/view",
-      "owner": "Sidney Power",
-      "name": "Q4 - Winland",
-      "amount": 30542.15,
-      "close_date": "2026-11-30",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": null,
-      "channel_raw": null,
-      "stage": "Discovery",
-      "s1_months": [
-        1
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1498,6 +1498,27 @@
       "wins_months": []
     },
     {
+      "id": "006P200000wXJowIAG",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wXJowIAG/view",
+      "owner": "Alex Walker",
+      "name": "Tata Re-engage",
+      "amount": 66000.0,
+      "close_date": "2026-06-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000d8HmoIAE",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
       "owner": "Sidney Power",
@@ -1533,27 +1554,6 @@
       ],
       "s2_months": [],
       "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006P200000wXJowIAG",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wXJowIAG/view",
-      "owner": "Alex Walker",
-      "name": "Tata Re-engage",
-      "amount": 66000.0,
-      "close_date": "2026-06-30",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": null,
-      "channel_raw": null,
-      "stage": "Discovery",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [],
-      "poc_months": [
-        1
-      ],
       "wins_months": []
     },
     {
@@ -1694,6 +1694,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-10T23:24:10.427971Z",
+  "last_fetched": "2026-03-11T01:46:12.210200Z",
   "source": "sharepoint_actuals_sheet"
 }
