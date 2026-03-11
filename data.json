@@ -171,7 +171,7 @@
       "s1": [
         1.0,
         5.0,
-        0.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -1692,8 +1692,27 @@
       "s2_months": [],
       "poc_months": [],
       "wins_months": []
+    },
+    {
+      "id": "006P200000xWPXZIA4",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xWPXZIA4/view",
+      "owner": "Jack Trailor-Thompson",
+      "name": "DANONE - MENA SI&A Mar-26",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-11T15:43:58.094005Z",
+  "last_fetched": "2026-03-11T16:47:15.107144Z",
   "source": "sharepoint_actuals_sheet"
 }
