@@ -197,7 +197,7 @@
         0.0
       ],
       "poc": [
-        0.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -1694,6 +1694,6 @@
       "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-11T09:38:55.262820Z",
+  "last_fetched": "2026-03-11T10:35:38.091777Z",
   "source": "sharepoint_actuals_sheet"
 }
