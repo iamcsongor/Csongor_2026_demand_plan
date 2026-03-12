@@ -171,7 +171,7 @@
       "s1": [
         1.0,
         5.0,
-        0.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -386,26 +386,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000RLyT3IAL",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000RLyT3IAL/view",
-      "owner": "Alex Walker",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "THE FINI - INSIGHTS - EMEA",
-      "amount": 40000.0,
-      "close_date": "2026-01-21",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "marketing",
-      "channel_raw": "Marketing Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [],
-      "s2_months": [],
-      "poc_months": [
-        1
-      ],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000UwvO1IAJ",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000UwvO1IAJ/view",
       "owner": "Alex Walker",
@@ -424,6 +404,26 @@
       ],
       "poc_months": [
         0
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000RLyT3IAL",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000RLyT3IAL/view",
+      "owner": "Alex Walker",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "THE FINI - INSIGHTS - EMEA",
+      "amount": 40000.0,
+      "close_date": "2026-01-21",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
       ],
       "wins_months": []
     },
@@ -1252,26 +1252,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000ccSwfIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ccSwfIAE/view",
-      "owner": "Sidney Power",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "F&S - INNO/INS - US",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000dpjUTIAY",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dpjUTIAY/view",
       "owner": "Sidney Power",
@@ -1308,6 +1288,26 @@
       "stage": "Discovery",
       "s1_months": [
         1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000ccSwfIAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ccSwfIAE/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "F&S - INNO/INS - US",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1354,30 +1354,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000dmc9RIAQ",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dmc9RIAQ/view",
-      "owner": "Sidney Power",
-      "created_by": "Angus May",
-      "name": "Cambri & Uqora (PV Subsid)",
-      "amount": 151467.42,
-      "close_date": "2026-03-06",
-      "type": "New OU",
-      "record_type": "Licensing Deal",
-      "channel": "partner",
-      "channel_raw": "Partner Sourced",
-      "stage": "Closed Won",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [
-        1
-      ],
-      "poc_months": [],
-      "wins_months": [
-        2
-      ]
-    },
-    {
       "id": "006Tu00000e0SlGIAU",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
       "owner": "Sidney Power",
@@ -1420,6 +1396,30 @@
       "wins_months": []
     },
     {
+      "id": "006Tu00000dmc9RIAQ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dmc9RIAQ/view",
+      "owner": "Sidney Power",
+      "created_by": "Angus May",
+      "name": "Cambri & Uqora (PV Subsid)",
+      "amount": 151467.42,
+      "close_date": "2026-03-06",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "partner",
+      "channel_raw": "Partner Sourced",
+      "stage": "Closed Won",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [
+        1
+      ],
+      "poc_months": [],
+      "wins_months": [
+        2
+      ]
+    },
+    {
       "id": "006Tu00000ctw0fIAA",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ctw0fIAA/view",
       "owner": "Sidney Power",
@@ -1460,26 +1460,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000d8dfHIAQ",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8dfHIAQ/view",
-      "owner": "Ben Harknett",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "MATERIAL - PARTNERSHIP SCOPE",
-      "amount": 0.0,
-      "close_date": "2026-02-21",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "marketing",
-      "channel_raw": "Marketing Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000e91NdIAI",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e91NdIAI/view",
       "owner": "Sidney Power",
@@ -1494,6 +1474,26 @@
       "stage": "Discovery",
       "s1_months": [
         1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8dfHIAQ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8dfHIAQ/view",
+      "owner": "Ben Harknett",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "MATERIAL - PARTNERSHIP SCOPE",
+      "amount": 0.0,
+      "close_date": "2026-02-21",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1517,6 +1517,28 @@
       ],
       "s2_months": [],
       "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000wXJowIAG",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wXJowIAG/view",
+      "owner": "Alex Walker",
+      "created_by": "Alex Walker",
+      "name": "Tata Re-engage",
+      "amount": 66000.0,
+      "close_date": "2026-06-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [
+        1
+      ],
       "wins_months": []
     },
     {
@@ -1554,68 +1576,6 @@
       "stage": "Closed Lost",
       "s1_months": [
         1
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006P200000wXJowIAG",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wXJowIAG/view",
-      "owner": "Alex Walker",
-      "created_by": "Alex Walker",
-      "name": "Tata Re-engage",
-      "amount": 66000.0,
-      "close_date": "2026-06-30",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": null,
-      "channel_raw": null,
-      "stage": "Discovery",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [],
-      "poc_months": [
-        1
-      ],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000d8HmoIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
-      "owner": "Sidney Power",
-      "created_by": "John Power",
-      "name": "Abbott - US INS",
-      "amount": 0.0,
-      "close_date": "2026-02-12",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000d83wjIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d83wjIAA/view",
-      "owner": "Sidney Power",
-      "created_by": "Angus May",
-      "name": "Cambri & Perdue",
-      "amount": 0.0,
-      "close_date": "2026-02-12",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1662,6 +1622,46 @@
       "s2_months": [
         1
       ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d8HmoIAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
+      "owner": "Sidney Power",
+      "created_by": "John Power",
+      "name": "Abbott - US INS",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d83wjIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d83wjIAA/view",
+      "owner": "Sidney Power",
+      "created_by": "Angus May",
+      "name": "Cambri & Perdue",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
       "poc_months": [],
       "wins_months": []
     },
@@ -1764,8 +1764,30 @@
       "s2_months": [],
       "poc_months": [],
       "wins_months": []
+    },
+    {
+      "id": "006P200000xWPXZIA4",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xWPXZIA4/view",
+      "owner": "Jack Trailor-Thompson",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "DANONE - MENA SI&A Mar-26",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": null,
+      "channel_raw": null,
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
     }
   ],
-  "last_fetched": "2026-03-11T12:50:28.824410Z",
+  "bdr_rep_targets": {},
+  "last_sf_sync": "2026-03-12T14:06:12",
+  "last_fetched": "2026-03-12T14:01:43.058814Z",
   "source": "sharepoint_actuals_sheet"
 }
