@@ -387,6 +387,14 @@
     <div class="header-chips">
       <div class="chip live" id="live-chip"><div style="width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite"></div> <span id="chip-label">Demo data</span></div>
       <div class="chip">FY 2026</div>
+      <a class="chip" id="source-link"
+         href="https://wiseandsallycom-my.sharepoint.com/:x:/g/personal/csongor_doma_cambri_io/IQDKVYMS8mOJS5WxpQi7eylEAWeqX1IwmUSiOAj2kDGFOns?e=Zh70hH"
+         target="_blank" rel="noopener"
+         style="text-decoration:none;color:var(--t2);border-color:rgba(255,255,255,0.1);transition:border-color .2s,color .2s"
+         onmouseover="this.style.borderColor='rgba(16,251,207,0.3)';this.style.color='var(--accent)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='var(--t2)'">
+        <span style="font-size:13px">📊</span>&nbsp;Source Data ↗
+      </a>
     </div>
   </header>
 
@@ -566,9 +574,8 @@ async function fetchSheetData() {
   const payload = await resp.json();
   if (payload.error) throw new Error(payload.error);
 
-  // data.json contains { targets, actuals, arr, deals, last_fetched }
+  // data.json contains { targets, actuals, arr, deals, last_sf_sync, last_fetched }
   // actuals[src][metric] = [jan…dec] where null = no data, 0 = real zero
-  // Overwrite TARGETS too (in case values were updated)
   Object.assign(TARGETS, payload.targets);
   if (Array.isArray(payload.deals)) DEALS = payload.deals;
   if (payload.arr) {
@@ -576,7 +583,7 @@ async function fetchSheetData() {
     ARR_DATA.monthly_actual = payload.arr.monthly_actual || Array(12).fill(null);
     ARR_DATA.reforecast     = payload.arr.reforecast     || Array(12).fill(null);
   }
-  return payload.actuals;
+  return { actuals: payload.actuals, last_sf_sync: payload.last_sf_sync || null };
 }
 
 function parseActualsCsv(csv) {
@@ -628,19 +635,27 @@ async function fetchAndRender(showSpinner = false) {
   setStatus('loading', 'Connecting to local server…');
 
   try {
-    ACTUALS = await fetchSheetData();
-    const now = new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    document.getElementById('last-updated').textContent = `Updated ${now}`;
+    const result = await fetchSheetData();
+    ACTUALS = result.actuals;
+
+    // Show the max date from "Automatic Operations Events Log" (when SF last synced data)
+    let syncLabel = '';
+    if (result.last_sf_sync) {
+      const d = new Date(result.last_sf_sync);
+      syncLabel = 'Data synced ' + d.toLocaleDateString('en-GB', {day:'numeric',month:'short'})
+                + ' ' + d.toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
+    }
+    document.getElementById('last-updated').textContent = syncLabel;
     document.getElementById('status-dot').className = 'status-dot live';
-    setStatus('live', 'Live · SharePoint via server.py');
+    setStatus('live', 'Live · SharePoint');
     document.getElementById('chip-label').textContent = 'Live · SharePoint';
     document.getElementById('setup-banner').style.display = 'none';
   } catch(e) {
-    setStatus('error', 'server.py not running — showing demo data');
+    setStatus('error', 'Could not load data.json — showing demo data');
     document.getElementById('status-dot').className = 'status-dot error';
     document.getElementById('setup-banner').style.display = 'flex';
     document.getElementById('last-updated').textContent = '';
-    console.warn('Server unavailable:', e.message);
+    console.warn('Fetch error:', e.message);
   } finally {
     document.getElementById('refresh-spin').classList.remove('show');
     renderAll();

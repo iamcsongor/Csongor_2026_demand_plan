@@ -232,6 +232,23 @@ def _fmt_date(v):
     return str(v)
 
 
+def read_last_sf_sync(wb):
+    """
+    Return the most recent datetime from 'Automatic Operations Events Log'
+    column A (skipping the header row) as an ISO-8601 string, or None.
+    """
+    if "Automatic Operations Events Log" not in wb.sheetnames:
+        return None
+    ws = wb["Automatic Operations Events Log"]
+    latest = None
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        val = row[0] if row else None
+        if isinstance(val, datetime.datetime):
+            if latest is None or val > latest:
+                latest = val
+    return latest.isoformat() if latest else None
+
+
 def read_deals(wb):
     """
     Read individual opportunity records from 'Demand Plan Actuals'.
@@ -271,6 +288,7 @@ def read_deals(wb):
             continue
 
         owner      = get(row, "Opportunity Owner")
+        created_by = get(row, "Created By")
         amount     = get(row, "Amount (converted)")
         close_date = get(row, "Close Date")
         opp_type   = get(row, "Type")
@@ -320,6 +338,7 @@ def read_deals(wb):
             "id":          opp_id,
             "sf_url":      SF_BASE_URL.format(id=opp_id),
             "owner":       owner,
+            "created_by":  created_by,
             "name":        opp_name,
             "amount":      float(amount) if amount is not None else None,
             "close_date":  _fmt_date(close_date),
@@ -349,15 +368,19 @@ def main():
 
     print("[compute.py] Reading deal-level data…")
     deals = read_deals(wb)
+
+    print("[compute.py] Reading last SF sync date…")
+    last_sf_sync = read_last_sf_sync(wb)
     wb.close()
 
     payload = {
-        "targets":      TARGETS,
-        "actuals":      actuals,
-        "arr":          arr,
-        "deals":        deals,
-        "last_fetched": datetime.datetime.utcnow().isoformat() + "Z",
-        "source":       "sharepoint_actuals_sheet",
+        "targets":       TARGETS,
+        "actuals":       actuals,
+        "arr":           arr,
+        "deals":         deals,
+        "last_sf_sync":  last_sf_sync,
+        "last_fetched":  datetime.datetime.utcnow().isoformat() + "Z",
+        "source":        "sharepoint_actuals_sheet",
     }
 
     with open(OUTPUT_FILE, "w") as f:
