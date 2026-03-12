@@ -27,7 +27,7 @@
       "s1": [
         4.0,
         4.0,
-        0.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -99,7 +99,7 @@
       "s1": [
         20.0,
         8.0,
-        4.0,
+        5.0,
         0.0,
         0.0,
         0.0,
@@ -1784,10 +1784,50 @@
       "s2_months": [],
       "poc_months": [],
       "wins_months": []
+    },
+    {
+      "id": "006P200000xbh43IAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xbh43IAA/view",
+      "owner": "Sidney Power",
+      "created_by": "Angus May",
+      "name": "Cambri & PepsiCo Eastern Europe",
+      "amount": 0.0,
+      "close_date": "2026-10-15",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006P200000xbvF4IAI",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xbvF4IAI/view",
+      "owner": "Alex Walker",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "HAUGEN - INSIGHT",
+      "amount": 0.0,
+      "close_date": "2026-09-30",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
     }
   ],
   "bdr_rep_targets": {},
-  "last_sf_sync": "2026-03-12T17:06:13",
-  "last_fetched": "2026-03-12T16:58:21.389207Z",
+  "last_sf_sync": "2026-03-12T18:06:03",
+  "last_fetched": "2026-03-12T17:52:20.876700Z",
   "source": "sharepoint_actuals_sheet"
 }
