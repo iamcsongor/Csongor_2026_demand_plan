@@ -583,6 +583,7 @@ async function fetchSheetData() {
     ARR_DATA.monthly_actual = payload.arr.monthly_actual || Array(12).fill(null);
     ARR_DATA.reforecast     = payload.arr.reforecast     || Array(12).fill(null);
   }
+  if (payload.bdr_rep_targets) Object.assign(BDR_REP_TARGETS, payload.bdr_rep_targets);
   return { actuals: payload.actuals, last_sf_sync: payload.last_sf_sync || null };
 }
 
@@ -680,6 +681,7 @@ let curSrc    = 'all';
 let curBDR    = null;   // null = all reps
 
 const BDR_REPS = ['Angus May', 'John Power', 'Jack Trailor-Thompson'];
+let BDR_REP_TARGETS = {};   // populated from data.json → bdr_rep_targets
 let curMetric = 's1';
 let tblMetric = 's1';
 let mainChart = null;
@@ -826,13 +828,28 @@ function getBDRActuals(bdrName) {
 }
 
 function getD(key) {
-  // When a BDR rep is selected, derive actuals from deals (created_by) and use 1/3 of targets
-  const acts_src  = curBDR ? getBDRActuals(curBDR) : ACTUALS;
-  const tgtFactor = curBDR ? (1 / BDR_REPS.length) : 1;
+  const acts_src = curBDR ? getBDRActuals(curBDR) : ACTUALS;
 
-  const tgt = curSrc === 'all'
-    ? SRCS.reduce((a,s) => a + TARGETS[s][key] * tgtFactor, 0)
-    : TARGETS[curSrc][key] * tgtFactor;
+  let tgt;
+  if (curBDR) {
+    const repData = BDR_REP_TARGETS[curBDR];
+    // Annual rep target — from spreadsheet if loaded, else equal-split fallback
+    const repAnnual = repData?.[key] != null
+      ? repData[key]
+      : SRCS.reduce((a,s) => a + TARGETS[s][key], 0) / BDR_REPS.length;
+
+    if (curSrc === 'all') {
+      tgt = repAnnual;
+    } else {
+      // Scale rep target proportionally by source share of total channel targets
+      const totalAllSrc = SRCS.reduce((a,s) => a + TARGETS[s][key], 0);
+      tgt = totalAllSrc > 0 ? repAnnual * TARGETS[curSrc][key] / totalAllSrc : 0;
+    }
+  } else {
+    tgt = curSrc === 'all'
+      ? SRCS.reduce((a,s) => a + TARGETS[s][key], 0)
+      : TARGETS[curSrc][key];
+  }
 
   const acts = curSrc === 'all'
     ? MONTHS.map((_,i) => {
@@ -973,19 +990,28 @@ function renderMix() {
   const CM        = getCurrentMonth();
   const m         = METRICS.find(x=>x.key===curMetric);
   const body      = document.getElementById('mix-body');
-  const acts_src  = curBDR ? getBDRActuals(curBDR) : ACTUALS;
-  const tgtFactor = curBDR ? (1 / BDR_REPS.length) : 1;
-  const repLabel  = curBDR ? ` · ${curBDR.split(' ')[0]}` : '';
+  const acts_src = curBDR ? getBDRActuals(curBDR) : ACTUALS;
+  const repLabel = curBDR ? ` · ${curBDR.split(' ')[0]}` : '';
   document.getElementById('mix-title').textContent = 'Source Mix · '+m.short+repLabel;
 
   const totAct = SRCS.reduce((sum,s)=>sum+acts_src[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0), 0);
   const annTot = SRCS.reduce((a,s)=>a+TARGETS[s][curMetric], 0);
 
+  // Per-source target when rep is filtered: scale rep annual proportionally by source share
+  function srcTgt(s) {
+    if (!curBDR) return TARGETS[s][curMetric];
+    const repData   = BDR_REP_TARGETS[curBDR];
+    const repAnnual = repData?.[curMetric] != null
+      ? repData[curMetric]
+      : annTot / BDR_REPS.length;
+    return annTot > 0 ? repAnnual * TARGETS[s][curMetric] / annTot : 0;
+  }
+
   body.innerHTML = `
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px">
       ${SRCS.map(s=>{
         const ytA = acts_src[s][curMetric].slice(0,CM+1).reduce((a,v)=>a+(v||0),0);
-        const ytT = paceTarget(TARGETS[s][curMetric] * tgtFactor);
+        const ytT = paceTarget(srcTgt(s));
         const p   = pct(ytA,ytT);
         const sh  = totAct>0 ? Math.round(ytA/totAct*100) : 0;
         return `

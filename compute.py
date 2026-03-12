@@ -232,6 +232,74 @@ def _fmt_date(v):
     return str(v)
 
 
+def read_bdr_targets_sheet(wb):
+    """
+    Read per-rep annual targets from the 'BDR Targets' tab.
+    Looks for a header row containing 'Rep' and metric columns, then reads
+    one row per rep.  Returns a dict keyed by rep name:
+        { "Angus May": {"s1":104,"s2":24,"poc":6.5,"wins":3.2,"value":243333}, ... }
+    Falls back to empty dict if the sheet is missing or unreadable.
+    """
+    if "BDR Targets" not in wb.sheetnames:
+        return {}
+
+    ws = wb["BDR Targets"]
+
+    # Metric header → internal key mapping (case-insensitive substring)
+    METRIC_HDR = {
+        "s1": "s1", "opps": "s1",
+        "s2": "s2", "advanced": "s2",
+        "poc": "poc",
+        "wins #": "wins", "wins#": "wins", "wins number": "wins",
+        "wins €": "value", "wins€": "value",
+    }
+
+    header_row_idx = None
+    col_map = {}   # internal_key -> 0-based column index
+
+    for row_idx, row in enumerate(ws.iter_rows(values_only=True)):
+        if row is None:
+            continue
+        # Detect the header row by the presence of 'Rep' in first cell
+        first = str(row[0] or "").strip().lower()
+        if first == "rep":
+            header_row_idx = row_idx
+            for col_i, hdr in enumerate(row):
+                if hdr is None:
+                    continue
+                h = str(hdr).strip().lower()
+                for pat, key in METRIC_HDR.items():
+                    if pat in h and key not in col_map:
+                        col_map[key] = col_i
+            break
+
+    if header_row_idx is None or not col_map:
+        return {}
+
+    def _f(v):
+        try:
+            return float(v) if v is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    result = {}
+    for row in ws.iter_rows(min_row=header_row_idx + 2, values_only=True):
+        if not row or row[0] is None:
+            continue
+        rep_name = str(row[0]).strip()
+        # Stop at totals / check rows
+        if rep_name.lower() in ("rep total", "total", "bdr channel total", "variance"):
+            continue
+        entry = {}
+        for key, col_i in col_map.items():
+            if col_i < len(row):
+                entry[key] = _f(row[col_i])
+        if entry:
+            result[rep_name] = entry
+
+    return result
+
+
 def read_last_sf_sync(wb):
     """
     Return the most recent datetime from 'Automatic Operations Events Log'
@@ -369,18 +437,22 @@ def main():
     print("[compute.py] Reading deal-level data…")
     deals = read_deals(wb)
 
+    print("[compute.py] Reading BDR rep targets…")
+    bdr_rep_targets = read_bdr_targets_sheet(wb)
+
     print("[compute.py] Reading last SF sync date…")
     last_sf_sync = read_last_sf_sync(wb)
     wb.close()
 
     payload = {
-        "targets":       TARGETS,
-        "actuals":       actuals,
-        "arr":           arr,
-        "deals":         deals,
-        "last_sf_sync":  last_sf_sync,
-        "last_fetched":  datetime.datetime.utcnow().isoformat() + "Z",
-        "source":        "sharepoint_actuals_sheet",
+        "targets":          TARGETS,
+        "actuals":          actuals,
+        "arr":              arr,
+        "deals":            deals,
+        "bdr_rep_targets":  bdr_rep_targets,
+        "last_sf_sync":     last_sf_sync,
+        "last_fetched":     datetime.datetime.utcnow().isoformat() + "Z",
+        "source":           "sharepoint_actuals_sheet",
     }
 
     with open(OUTPUT_FILE, "w") as f:
