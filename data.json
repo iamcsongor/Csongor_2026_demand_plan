@@ -99,7 +99,7 @@
       "s1": [
         20.0,
         8.0,
-        5.0,
+        6.0,
         0.0,
         0.0,
         0.0,
@@ -1824,10 +1824,30 @@
       "s2_months": [],
       "poc_months": [],
       "wins_months": []
+    },
+    {
+      "id": "006P200000xc5pWIAQ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xc5pWIAQ/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "JDE - INSIGHTS - MENA",
+      "amount": 0.0,
+      "close_date": "2026-08-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
     }
   ],
   "bdr_rep_targets": {},
-  "last_sf_sync": "2026-03-12T18:06:03",
-  "last_fetched": "2026-03-12T17:52:20.876700Z",
+  "last_sf_sync": "2026-03-12T19:06:04",
+  "last_fetched": "2026-03-12T18:49:42.044496Z",
   "source": "sharepoint_actuals_sheet"
 }
