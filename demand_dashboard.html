@@ -722,7 +722,7 @@ function openDrilldown(src, metric, monthIdx) {
     body.innerHTML = `
       <table class="drill-tbl">
         <thead><tr>
-          <th>Owner</th><th>Opportunity</th><th>Close Date</th>
+          <th>Owner</th><th>Created By</th><th>Opportunity</th><th>Close Date</th>
           <th style="text-align:right">Amount</th>
           <th>Type</th><th>Record Type</th><th>Channel</th>
         </tr></thead>
@@ -732,6 +732,7 @@ function openDrilldown(src, metric, monthIdx) {
             const color = CH_COLORS[ch] || 'rgba(255,255,255,0.3)';
             return `<tr>
               <td style="white-space:nowrap">${deal.owner||'—'}</td>
+              <td style="white-space:nowrap">${deal.created_by||'—'}</td>
               <td><a href="${deal.sf_url}" target="_blank" rel="noopener">${deal.name||'—'}</a></td>
               <td style="white-space:nowrap">${deal.close_date||'—'}</td>
               <td class="amt">${fmtAmt(deal.amount)}</td>
@@ -774,13 +775,14 @@ function openDrilldownSrc(src, metric, upToMonth) {
     body.innerHTML = `
       <table class="drill-tbl">
         <thead><tr>
-          <th>Owner</th><th>Opportunity</th><th>Close Date</th>
+          <th>Owner</th><th>Created By</th><th>Opportunity</th><th>Close Date</th>
           <th style="text-align:right">Amount</th>
           <th>Type</th><th>Record Type</th><th>Channel</th>
         </tr></thead>
         <tbody>
           ${filtered.map(deal => `<tr>
             <td style="white-space:nowrap">${deal.owner||'—'}</td>
+            <td style="white-space:nowrap">${deal.created_by||'—'}</td>
             <td><a href="${deal.sf_url}" target="_blank" rel="noopener">${deal.name||'—'}</a></td>
             <td style="white-space:nowrap">${deal.close_date||'—'}</td>
             <td class="amt">${fmtAmt(deal.amount)}</td>
@@ -1081,18 +1083,15 @@ function renderARR() {
   const lastIdx = lastNonZeroIdx;
   const lastARR  = lastIdx >= 0 ? cumActual[lastIdx] : 0;
 
-  // Reforecast from sheet (column F — monthly values, needs accumulating)
-  // Builds cumulative line anchored at lastARR, running forward month by month
+  // Reforecast from sheet — values are already CUMULATIVE totals (not monthly increments)
+  // e.g. [0, 22000, 173467, 363832, …, 1886752]
   const reforecastMonthly = ARR_DATA.reforecast;
   const reforecastLine = MONTHS.map((_, i) => {
-    if (lastIdx < 0)   return null;
-    if (i < lastIdx)   return null;        // hidden before actual ends
-    if (i === lastIdx) return lastARR;     // anchor to last actual
-    let cum = lastARR;
-    for (let j = lastIdx + 1; j <= i; j++) {
-      cum += reforecastMonthly[j] || 0;
-    }
-    return cum;
+    if (lastIdx < 0) return null;
+    if (i < lastIdx) return null;        // hidden before actual ends
+    if (i === lastIdx) return lastARR;   // anchor exactly to last actual
+    const v = reforecastMonthly[i];
+    return v != null ? v : null;
   });
 
   // Year-end projection = cumulative reforecast at December
