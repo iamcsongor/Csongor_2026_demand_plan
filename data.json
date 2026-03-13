@@ -780,26 +780,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000TFKjHIAX",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000TFKjHIAX/view",
-      "owner": "Alex Walker",
-      "created_by": "Alex Walker",
-      "name": "Suntory - Europe Insights",
-      "amount": 0.0,
-      "close_date": "2025-12-03",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "marketing",
-      "channel_raw": "Marketing Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [],
-      "s2_months": [],
-      "poc_months": [
-        1
-      ],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000bW4KvIAK",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000bW4KvIAK/view",
       "owner": "Sidney Power",
@@ -820,6 +800,26 @@
       ],
       "poc_months": [
         2
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000TFKjHIAX",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000TFKjHIAX/view",
+      "owner": "Alex Walker",
+      "created_by": "Alex Walker",
+      "name": "Suntory - Europe Insights",
+      "amount": 0.0,
+      "close_date": "2025-12-03",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        1
       ],
       "wins_months": []
     },
@@ -1334,26 +1334,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000cnfovIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
-      "owner": "Sidney Power",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "AVON - INSIGHTS - GLOBAL",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000e0SlGIAU",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
       "owner": "Sidney Power",
@@ -1396,6 +1376,26 @@
       "wins_months": []
     },
     {
+      "id": "006Tu00000cnfovIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "AVON - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000dmc9RIAQ",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dmc9RIAQ/view",
       "owner": "Sidney Power",
@@ -1418,6 +1418,26 @@
       "wins_months": [
         2
       ]
+    },
+    {
+      "id": "006Tu00000e91NdIAI",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e91NdIAI/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "NESTLE - Central America",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "marketing",
+      "channel_raw": "Marketing Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
     },
     {
       "id": "006Tu00000ctw0fIAA",
@@ -1454,26 +1474,6 @@
       "stage": "Closed Lost",
       "s1_months": [
         0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000e91NdIAI",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e91NdIAI/view",
-      "owner": "Sidney Power",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "NESTLE - Central America",
-      "amount": 0.0,
-      "close_date": "2026-07-31",
-      "type": "New OU",
-      "record_type": "Licensing Deal",
-      "channel": "marketing",
-      "channel_raw": "Marketing Sourced",
-      "stage": "Discovery",
-      "s1_months": [
-        1
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1542,46 +1542,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000d4r7JIAQ",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d4r7JIAQ/view",
-      "owner": "Sidney Power",
-      "created_by": "John Power",
-      "name": "Kroger - INS",
-      "amount": 0.0,
-      "close_date": "2026-02-12",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000dNkQIIA0",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dNkQIIA0/view",
-      "owner": "Sidney Power",
-      "created_by": "Angus May",
-      "name": "Cambri & Colgate | Insights lead Europe",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006P200000wajjaIAA",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wajjaIAA/view",
       "owner": "Sidney Power",
@@ -1622,6 +1582,46 @@
       "s2_months": [
         1
       ],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d4r7JIAQ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d4r7JIAQ/view",
+      "owner": "Sidney Power",
+      "created_by": "John Power",
+      "name": "Kroger - INS",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000dNkQIIA0",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000dNkQIIA0/view",
+      "owner": "Sidney Power",
+      "created_by": "Angus May",
+      "name": "Cambri & Colgate | Insights lead Europe",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        1
+      ],
+      "s2_months": [],
       "poc_months": [],
       "wins_months": []
     },
@@ -1746,26 +1746,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000e0UwnIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0UwnIAE/view",
-      "owner": "Sidney Power",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "TCCC AFRICA - Wellingtone re-engage Feb 26",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New OU",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        1
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006P200000xWPXZIA4",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000xWPXZIA4/view",
       "owner": "Jack Trailor-Thompson",
@@ -1780,6 +1760,26 @@
       "stage": "Discovery",
       "s1_months": [
         2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000e0UwnIAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0UwnIAE/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "TCCC AFRICA - Wellingtone re-engage Feb 26",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New OU",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        1
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1847,7 +1847,7 @@
     }
   ],
   "bdr_rep_targets": {},
-  "last_sf_sync": "2026-03-13T00:05:50",
-  "last_fetched": "2026-03-12T23:24:36.803918Z",
+  "last_sf_sync": "2026-03-13T02:06:12",
+  "last_fetched": "2026-03-13T01:49:50.619474Z",
   "source": "sharepoint_actuals_sheet"
 }
