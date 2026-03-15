@@ -1314,26 +1314,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000ck7rpIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ck7rpIAA/view",
-      "owner": "Sidney Power",
-      "created_by": "Angus May",
-      "name": "Cambri & Chicken of the Sea",
-      "amount": 0.0,
-      "close_date": "2026-02-18",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000e0SlGIAU",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000e0SlGIAU/view",
       "owner": "Sidney Power",
@@ -1376,11 +1356,11 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000cnfovIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
+      "id": "006Tu00000ck7rpIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ck7rpIAA/view",
       "owner": "Sidney Power",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "AVON - INSIGHTS - GLOBAL",
+      "created_by": "Angus May",
+      "name": "Cambri & Chicken of the Sea",
       "amount": 0.0,
       "close_date": "2026-02-18",
       "type": "New Logo",
@@ -1410,6 +1390,26 @@
       "stage": "Discovery",
       "s1_months": [
         1
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000cnfovIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cnfovIAA/view",
+      "owner": "Sidney Power",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "AVON - INSIGHTS - GLOBAL",
+      "amount": 0.0,
+      "close_date": "2026-02-18",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1847,7 +1847,7 @@
     }
   ],
   "bdr_rep_targets": {},
-  "last_sf_sync": "2026-03-15T00:06:11",
-  "last_fetched": "2026-03-14T23:24:34.077758Z",
+  "last_sf_sync": "2026-03-15T02:05:46",
+  "last_fetched": "2026-03-15T02:03:40.534739Z",
   "source": "sharepoint_actuals_sheet"
 }
