@@ -696,26 +696,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000YVyQvIAL",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000YVyQvIAL/view",
-      "owner": "Alex Walker",
-      "created_by": "Angus May",
-      "name": "Cambri & Lotus | Alex & Amrutha",
-      "amount": 0.0,
-      "close_date": "2026-02-26",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [],
-      "s2_months": [],
-      "poc_months": [
-        0
-      ],
-      "wins_months": []
-    },
-    {
       "id": "006Tu00000a5AYIIA2",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000a5AYIIA2/view",
       "owner": "Alex Walker",
@@ -756,6 +736,26 @@
       ],
       "poc_months": [
         1
+      ],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000YVyQvIAL",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000YVyQvIAL/view",
+      "owner": "Alex Walker",
+      "created_by": "Angus May",
+      "name": "Cambri & Lotus | Alex & Amrutha",
+      "amount": 0.0,
+      "close_date": "2026-02-26",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [],
+      "s2_months": [],
+      "poc_months": [
+        0
       ],
       "wins_months": []
     },
@@ -844,6 +844,26 @@
       "wins_months": []
     },
     {
+      "id": "006Tu00000cgl1RIAQ",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cgl1RIAQ/view",
+      "owner": "Alex Walker",
+      "created_by": "Jack Trailor-Thompson",
+      "name": "SOFINA - INSIGHTS UK",
+      "amount": 0.0,
+      "close_date": "2026-07-31",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Discovery",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
       "id": "006Tu00000ZagXdIAJ",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000ZagXdIAJ/view",
       "owner": "Anna Sundelius",
@@ -864,26 +884,6 @@
       "wins_months": [
         1
       ]
-    },
-    {
-      "id": "006Tu00000cgl1RIAQ",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000cgl1RIAQ/view",
-      "owner": "Alex Walker",
-      "created_by": "Jack Trailor-Thompson",
-      "name": "SOFINA - INSIGHTS UK",
-      "amount": 0.0,
-      "close_date": "2026-07-31",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Discovery",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
     },
     {
       "id": "006Tu00000cjijnIAA",
@@ -1626,46 +1626,6 @@
       "wins_months": []
     },
     {
-      "id": "006Tu00000d8HmoIAE",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
-      "owner": "Sidney Power",
-      "created_by": "John Power",
-      "name": "Abbott - US INS",
-      "amount": 0.0,
-      "close_date": "2026-02-12",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
-      "id": "006Tu00000d83wjIAA",
-      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d83wjIAA/view",
-      "owner": "Sidney Power",
-      "created_by": "Angus May",
-      "name": "Cambri & Perdue",
-      "amount": 0.0,
-      "close_date": "2026-02-12",
-      "type": "New Logo",
-      "record_type": "Licensing Deal",
-      "channel": "bdr",
-      "channel_raw": "BDR Sourced",
-      "stage": "Closed Lost",
-      "s1_months": [
-        0
-      ],
-      "s2_months": [],
-      "poc_months": [],
-      "wins_months": []
-    },
-    {
       "id": "006P200000wu6R8IAI",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wu6R8IAI/view",
       "owner": "John Power",
@@ -1686,6 +1646,26 @@
       "wins_months": []
     },
     {
+      "id": "006Tu00000d8HmoIAE",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d8HmoIAE/view",
+      "owner": "Sidney Power",
+      "created_by": "John Power",
+      "name": "Abbott - US INS",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
       "id": "006P200000wuIAXIA2",
       "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006P200000wuIAXIA2/view",
       "owner": "Alex Walker",
@@ -1700,6 +1680,26 @@
       "stage": "Discovery",
       "s1_months": [
         2
+      ],
+      "s2_months": [],
+      "poc_months": [],
+      "wins_months": []
+    },
+    {
+      "id": "006Tu00000d83wjIAA",
+      "sf_url": "https://cambri.lightning.force.com/lightning/r/Opportunity/006Tu00000d83wjIAA/view",
+      "owner": "Sidney Power",
+      "created_by": "Angus May",
+      "name": "Cambri & Perdue",
+      "amount": 0.0,
+      "close_date": "2026-02-12",
+      "type": "New Logo",
+      "record_type": "Licensing Deal",
+      "channel": "bdr",
+      "channel_raw": "BDR Sourced",
+      "stage": "Closed Lost",
+      "s1_months": [
+        0
       ],
       "s2_months": [],
       "poc_months": [],
@@ -1847,7 +1847,7 @@
     }
   ],
   "bdr_rep_targets": {},
-  "last_sf_sync": "2026-03-16T00:06:09",
-  "last_fetched": "2026-03-15T23:26:08.224000Z",
+  "last_sf_sync": "2026-03-16T02:05:46",
+  "last_fetched": "2026-03-16T02:05:17.445337Z",
   "source": "sharepoint_actuals_sheet"
 }
